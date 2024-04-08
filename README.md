@@ -11,7 +11,7 @@
 
 ## Resumo
 
-A ideia do trabalho é desenvolver um sistema web para a empresa Wisp Resort, mais especificamente para o setor de aluguel de equipamentos de esqui e snowboard. A empresa é um resort sediado em McHenry, Maryland, EUA.
+A ideia do trabalho é desenvolver um sistema web para a empresa [Wisp Resort](https://www.wispresort.com/), mais especificamente para o setor de aluguel de equipamentos de esqui e snowboard. A empresa é um resort sediado em McHenry, Maryland, EUA.
 
 O sistema contará com uma página de login, divida entre login para funcionários ou clientes.
 
