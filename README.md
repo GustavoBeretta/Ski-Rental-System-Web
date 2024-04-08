@@ -20,3 +20,15 @@ Pelo cadastro como cliente, o mesmo poderá criar novos pedidos de aluguel de eq
 Já o cadastro de funcionário permitirá ver e gerenciar os pedidos de aluguel recebidos, gerenciar os usuários cadastrados no sistema e gerenciar as configurações da conta também.
 
 O cadastro de novos usuários poderá ser realizado de forma autônoma, mas, para ser cadastrado como funcionário, outro funcionário deve validar esse novo cadastro.
+
+---
+
+## Requisitos da aplicação _Web_:
+
+* A aplicação deve ser acessível apenas após autenticação
+* A aplicação deve permitir o cadastro de novos usuários
+* Quando autenticado, o usuário deve poder atualizar seu cadastro
+* Deve existir alguma base de dados no back-end (ex: mongodb)
+* Deve ser possível compartilhar dados entre usuários
+* A aplicação deve ficar disponível 24/7 em algum servidor da Nuvem UFSC ou externo à UFSC (vamos ver como configurar isso na aula 16)
+* O front-end deve ser responsivo (desktop e mobile)
