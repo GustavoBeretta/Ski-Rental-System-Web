@@ -1,11 +1,15 @@
 # Trabalho-Web
 
-Membros:
+## Membros:
 
-Andres Kindel Barbosa
-Gustavo Beretta Gonçalves
-Josef Konrad Holanda Bruseke
-Luiz Adriano Augusto dos Santos
+* Andres Kindel Barbosa
+* Gustavo Beretta Gonçalves
+* Josef Konrad Holanda Bruseke
+* Luiz Adriano Augusto dos Santos
+
+---
+
+## Resumo
 
 A ideia do trabalho é desenvolver um sistema web para a empresa Wisp Resort, mais especificamente para o setor de aluguel de equipamentos de esqui e snowboard. A empresa é um resort sediado em McHenry, Maryland, EUA.
 
