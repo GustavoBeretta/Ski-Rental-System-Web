@@ -19,6 +19,8 @@ Pelo cadastro como cliente, o mesmo poderá criar novos pedidos de aluguel de eq
 
 Já o cadastro de funcionário permitirá ver e gerenciar os pedidos de aluguel recebidos, gerenciar os usuários cadastrados no sistema e gerenciar as configurações da conta também.
 
+A função básica do sistema será permitir que o cliente submeta pedidos de aluguel com suas informações e o funcionário receba esse pedido e realize as operações necessárias.
+
 O cadastro de novos usuários poderá ser realizado de forma autônoma, mas, para ser cadastrado como funcionário, outro funcionário deve validar esse novo cadastro.
 
 ---
