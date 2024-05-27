@@ -1,6 +1,6 @@
 const NavBar = () => {
     return (
-        <nav className="bg-cyan-500 p-2 overflow-y-hidden">
+        <nav className="bg-[#81C9D8] p-2 overflow-y-hidden">
             <div className="flex mx-auto justify-between items-center">
                 <a href="#" className="text-gray-600 hover:text-white text-l ">RENTAL SYSTEM</a>
                     <a href="#">
