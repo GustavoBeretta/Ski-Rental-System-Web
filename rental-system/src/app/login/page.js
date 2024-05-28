@@ -29,7 +29,7 @@ export default function Login() {
                                 </div>
                                 <button type="submit" className="w-full text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
                                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                    Don’t have an account yet? <a href="#" className="font-medium text-primary-600 hover:underline hover:text-black">Sign up</a>
+                                    Don’t have an account yet? <a href="./cadastro" className="font-medium text-primary-600 hover:underline hover:text-black">Sign up</a>
                                 </p>
                             </form>
                         </div>
