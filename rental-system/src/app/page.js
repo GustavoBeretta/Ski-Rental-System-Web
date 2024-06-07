@@ -1,14 +1,13 @@
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between mt-10
-    ">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <main className="flex flex-col items-center justify-between pt-6 py-0 mb-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-60">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-2xl text-[#8F8E8E]">NEW RENTAL REQUEST</h1>
-          <h2 className="text-l text-[#8F8E8E] mt-2">Make sure guest information is updated!</h2>
+          <h2 className="text-[#8F8E8E] mb-2">Make sure guest information is updated!</h2>
           <form className="space-y-4 md:space-y-6" action="#">
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#8F8E8E]">GUEST NAME</label>
+              <label htmlFor="email" className="block m-2 text-sm font-medium text-[#8F8E8E]">GUEST NAME</label>
               <input type="email" name="email" id="email" className="bg-[#ECECEC] border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required=""/>
             </div>
             <div>
