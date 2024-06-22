@@ -4,27 +4,19 @@ export default function Cadastro() {
     { label: "Email", name: "email" },
     { label: "Password", name: "password" },
     { label: "Password confirmation", name: "passwordConfirmation" },
-    { label: "Phone number", name: "phoneNumber" },
-    { label: "Drive's Licence", name: "driveLicence" },
-    { label: "State", name: "state" },
-    { label: "City", name: "city" },
-    { label: "Zip Code", name: "zipCode" },
-    { label: "Address", name: "address" },
     { label: "Gender", name: "gender", options: ["Masculine", "Feminine"] },
     { label: "US Shoe Size", name: "shoeSize" },
-    { label: "Skyer Type", name: "skyerType", options: ["Beginner", "Intermediate", "Advanced"] },
-    { label: "Snowboarder Type", name: "snowboarderType", options: ["Beginner", "Intermediate", "Advanced"] },
     { label: "Age", name: "age" },
-    { label: "Weight (lbs)", name: "weight" },
-    { label: "Height (FN/IN)", name: "height" },
+    { label: "Weight (KG)", name: "weight" },
+    { label: "Height (CM)", name: "height" },
   ];
 
   return (
     <main>
       <section className="flex flex-col items-center justify-center px-6 py-8 lg:py-0 snap-none">
         <h1 className="text-4xl text-[#8F8E8E] pt-6">Create New Account</h1>
-        <p className="text-l text-[#8F8E8E] mt-4">
-          Already registered? <a href="/" className="text-sm font-medium text-[#8F8E8E] hover:underline hover:text-black">Sign in</a>
+        <p className="text-l text-[#4094A5] mt-4">
+          Already registered? <a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Sign in</a>
         </p>
         <div className="flex items-center content-center flex-col w-6/12">
           <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8">
@@ -46,7 +38,7 @@ export default function Cadastro() {
               </div>
             ))}
           </form>
-          <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Create Account</button>
+          <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">sign up</button>
         </div>
       </section>
     </main>
