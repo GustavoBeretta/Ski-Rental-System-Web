@@ -2,15 +2,20 @@ import mongoose, {Schema} from "mongoose";
 
 const usersSchema = new Schema(
     {
-        id: Number,
-        status: String,
         name: String,
+        email: String,
+        password: String,
+        gender: String,
+        shoeSize: Number,
+        age: Number,
+        weight: Number,
+        height: Number
     },
     {
         timestamps: true,
     }
 );
 
-const users = mongoose.models.users ||  mongoose.model("users", usersSchema)
+const Users = mongoose.models.Users ||  mongoose.model("Users", usersSchema)
 
-export default users;
+export default Users;

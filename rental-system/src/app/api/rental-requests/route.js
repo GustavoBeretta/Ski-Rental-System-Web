@@ -3,9 +3,9 @@ import connectMongoDB from "../../../../libs/mongodb"
 import RentalRequest from "../../../../models/rental_request";
 
 export async function POST(request) {
-    const {id, status} = await request.json();
+    const {status} = await request.json();
     await connectMongoDB();
-    await RentalRequest.create({id, status});
+    await RentalRequest.create({status});
     return NextResponse.json({message: "Rental Request created"}, {status: 201})
 
 }

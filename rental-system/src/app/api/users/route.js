@@ -1,24 +1,24 @@
 import { NextResponse } from "next/server";
 import connectMongoDB from "../../../../libs/mongodb"
-import users from "../../../../models/users";
+import Users from "../../../../models/users";
 
 export async function POST(request) {
-    const {id, status, name} = await request.json();
+    const { name, email, password, gender, showSize, age, weigth, height } = await request.json();
     await connectMongoDB();
-    await users.create({id, status, name});
+    await Users.create({name, email, password, gender, showSize, age, weigth, height});
     return NextResponse.json({message: "User created"}, {status: 201})
 }
 
 export async function GET() {
     await connectMongoDB();
-    const requests = await users.find();
-    return NextResponse.json({ requests });
+    const users = await Users.find();
+    return NextResponse.json({ users });
 }
 
 export async function DELETE(request) {
     const id = request.nextUrl.searchParams.get("id");
     await connectMongoDB();
-    await RentalRequest.findByIdAndDelete(id)
-    return NextResponse.json({message: "Request deleted"}, {status: 200})
+    await Users.findByIdAndDelete(id)
+    return NextResponse.json({message: "User deleted"}, {status: 200})
 }
     
