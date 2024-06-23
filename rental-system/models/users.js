@@ -9,7 +9,8 @@ const usersSchema = new Schema(
         shoeSize: Number,
         age: Number,
         weight: Number,
-        height: Number
+        height: Number,
+        role: String
     },
     {
         timestamps: true,

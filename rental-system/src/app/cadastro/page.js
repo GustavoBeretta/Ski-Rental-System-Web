@@ -29,6 +29,7 @@ export default function Cadastro() {
     const age = document.getElementById("age").value;
     const weight = document.getElementById("weight").value;
     const height = document.getElementById("height").value;
+    const role = "guest";
 
     if (await checkIfEmailIsRegistered(email)) {
       window.alert("Email already registered");
@@ -50,7 +51,8 @@ export default function Cadastro() {
       shoeSize: shoeSize,
       age: age,
       weight: weight,
-      height: height
+      height: height,
+      role: role
     }
 
     const dadosCadastroJson = JSON.stringify(dadosCadastro);
