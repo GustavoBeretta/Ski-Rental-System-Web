@@ -1,4 +1,16 @@
+'use client';
+import { useRouter } from 'next/navigation'; // Correção: importar de 'next/navigation' em vez de 'next/router'
+
 export default function Home() {
+  const router = useRouter();
+
+  const handleClickEditAccount = () => {
+    router.push('/edit-account');
+  }
+  const handleClickRentalRequests = () => {
+    router.push('/rental-requests');
+  }
+
   return (
     <main className="flex flex-col items-center justify-between pt-52 py-0 mb-0">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-60">
@@ -49,11 +61,11 @@ export default function Home() {
               </div>
             </div>
           </form>
-            <button type="submit" className="w-2/4 text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">submit</button>
+          <button type="submit" className="w-2/4 text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">submit</button>
         </div>
         <div className="flex flex-col justify-center space-y-10">
-          <button type="submit" className="text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-extrabold rounded-3xl text-3xl px-5 py-2.5 text-center h-full">Rental Historic</button>
-          <button type="submit"className="text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-extrabold rounded-3xl text-3xl px-5 py-2.5 text-center h-full">Account Settings </button>
+          <button type="submit" onClick={handleClickRentalRequests} className="text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-extrabold rounded-3xl text-3xl px-5 py-2.5 text-center h-full">Rental Historic</button>
+          <button type="button" onClick={handleClickEditAccount} className="text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-extrabold rounded-3xl text-3xl px-5 py-2.5 text-center h-full">Account Settings </button>
         </div>
       </div>
     </main>
