@@ -32,13 +32,20 @@ export default function Cadastro() {
 
     if (await checkIfEmailIsRegistered(email)) {
       window.alert("Email already registered");
+     return;
+    }
+      
+    if (password !== passwordConfirmation) {
+      window.alert("Passwords do not match");
       return;
     }
+
+    const hashPassword =  await getHashPassword(password);
 
     const dadosCadastro = {
       name: fullName,
       email: email,
-      password: password,
+      password: hashPassword,
       gender: gender,
       shoeSize: shoeSize,
       age: age,
@@ -61,9 +68,6 @@ export default function Cadastro() {
         throw new Error("Failed to fetch the rental requests")
       }
 
-      console.log("User created");
-
-      // Redireciona para a página home
       router.push('/');
 
     } catch (error) {
