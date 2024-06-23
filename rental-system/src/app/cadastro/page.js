@@ -66,9 +66,6 @@ export default function Cadastro() {
         throw new Error("Failed to fetch the rental requests")
       }
 
-      console.log("User created");
-
-      // Redireciona para a página home
       router.push('/');
 
     } catch (error) {
