@@ -16,7 +16,7 @@ export default function Home() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-60">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-4xl mb-1 text-[#8F8E8E]">NEW RENTAL REQUEST</h1>
-          <h2 className="text-sm mb-4 text-[#8F8E8E] mb-2">Make sure guest information is updated!</h2>
+          <h2 className="text-sm mb-4 text-[#8F8E8E]">Make sure guest information is updated!</h2>
           <form className="space-y-4 md:space-y-6 w-3/4 mb-4" action="#">
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#8F8E8E]">SPORT</label>
