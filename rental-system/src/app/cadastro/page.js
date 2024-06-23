@@ -1,10 +1,18 @@
 'use client';
-import checaEmail from './controller/cadastroController.js';
-
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import bcrypt from 'bcryptjs';
 
 export default function Cadastro() {
+  async function checkIfEmailIsRegistered(email) {
+    const usuarios = await fetch("http://localhost:3000/api/usuarios").then((res) => res.json());
+    return usuarios.some((usuario) => usuario.email === email);
+  }
+
+  function getHashPassword(senha) {
+      return bcrypt.hash(senha, 10);
+  }
+
   const router = useRouter();
 
   const postUsers = async (event) => {
