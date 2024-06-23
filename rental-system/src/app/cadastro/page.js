@@ -1,4 +1,5 @@
 'use client';
+import checaEmail from './controller/cadastroController.js';
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -18,6 +19,11 @@ export default function Cadastro() {
     const age = document.getElementById("age").value;
     const weight = document.getElementById("weight").value;
     const height = document.getElementById("height").value;
+
+    if (checaEmail(email)) {
+      window.alert("Email already registered");
+      return;
+    }
 
     const dadosCadastro = {
       name: fullName,
