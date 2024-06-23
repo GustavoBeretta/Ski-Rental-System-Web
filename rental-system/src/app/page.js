@@ -30,17 +30,13 @@ export default function Login() {
         }
 
         bcrypt.compare(password, user.password, (err, res) => {
-            if (err) {
-                window.alert("Error");
-                return;
-            }
-
             if (!res) {
                 window.alert("Incorrect password");
+                router.push("/");
                 return;
             }
         });
-
+        
         if (isEmployeeLogin) {
             if (user.role !== "employee") {
                 window.alert("User is not an employee");
