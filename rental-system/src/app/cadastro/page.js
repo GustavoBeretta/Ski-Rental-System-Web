@@ -1,4 +1,60 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import React from 'react';
+
 export default function Cadastro() {
+  const router = useRouter();
+
+  const postUsers = async (event) => {
+    event.preventDefault(); // Evita o reload da página
+
+    const fullName = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirmation = document.getElementById("passwordConfirmation").value;
+    const gender = document.getElementById("gender").value;
+    const shoeSize = document.getElementById("shoeSize").value;
+    const age = document.getElementById("age").value;
+    const weight = document.getElementById("weight").value;
+    const height = document.getElementById("height").value;
+
+    const dadosCadastro = {
+      name: fullName,
+      email: email,
+      password: password,
+      gender: gender,
+      shoeSize: shoeSize,
+      age: age,
+      weight: weight,
+      height: height
+    }
+
+    const dadosCadastroJson = JSON.stringify(dadosCadastro);
+
+    try {
+      const res = await fetch('http://localhost:3000/api/users', {
+        cache: "no-store",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: dadosCadastroJson
+      });
+      if (!res.ok) {
+        throw new Error("Failed to fetch the rental requests")
+      }
+
+      console.log("User created");
+
+      // Redireciona para a página home
+      router.push('/');
+
+    } catch (error) {
+      console.log("Error loading topics: ", error)
+    }
+  }
+
   const inputs = [
     { label: "Full name", name: "name" },
     { label: "Email", name: "email" },
@@ -19,7 +75,7 @@ export default function Cadastro() {
           Already registered? <a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Sign in</a>
         </p>
         <div className="flex items-center content-center flex-col w-6/12">
-          <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8">
+          <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8" onSubmit={postUsers}>
             {inputs.map((input) => (
               <div key={input.name}>
                 <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
@@ -37,8 +93,10 @@ export default function Cadastro() {
                 )}
               </div>
             ))}
+            <div className="flex justify-center">
+              <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Sign up</button>
+            </div>
           </form>
-          <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">sign up</button>
         </div>
       </section>
     </main>
