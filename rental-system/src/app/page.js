@@ -2,6 +2,7 @@
 
 import bcrypt from 'bcryptjs';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [isEmployeeLogin, setIsEmployeeLogin] = useState(false);
@@ -12,6 +13,8 @@ export default function Login() {
         const user = await usuarios.users.find((usuario) => usuario.email === email);
         return user;
     }
+
+    const router = useRouter();
 
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -51,10 +54,12 @@ export default function Login() {
                 return;
             }
         }
+        router.push("/home");
     }
 
     const handleEmployeeLoginClick = () => {
         setIsEmployeeLogin(true);
+
     };
 
     return (
