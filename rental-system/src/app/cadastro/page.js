@@ -5,8 +5,10 @@ import bcrypt from 'bcryptjs';
 
 export default function Cadastro() {
   async function checkIfEmailIsRegistered(email) {
-    const usuarios = await fetch("http://localhost:3000/api/usuarios").then((res) => res.json());
-    return usuarios.some((usuario) => usuario.email === email);
+    const response = await fetch("http://localhost:3000/api/users");
+    const usuarios = await response.json();
+    const check = await usuarios.users.some((usuario) => usuario.email === email);
+    return check;
   }
 
   function getHashPassword(senha) {
@@ -28,7 +30,7 @@ export default function Cadastro() {
     const weight = document.getElementById("weight").value;
     const height = document.getElementById("height").value;
 
-    if (checaEmail(email)) {
+    if (await checkIfEmailIsRegistered(email)) {
       window.alert("Email already registered");
       return;
     }
@@ -70,16 +72,16 @@ export default function Cadastro() {
   }
 
   const inputs = [
-    { label: "Full name", name: "name" },
-    { label: "Email", name: "email" },
-    { label: "Password", name: "password" },
-    { label: "Password confirmation", name: "passwordConfirmation" },
-    { label: "Gender", name: "gender", options: ["Masculine", "Feminine"] },
-    { label: "US Shoe Size", name: "shoeSize" },
-    { label: "Age", name: "age" },
-    { label: "Weight (KG)", name: "weight" },
-    { label: "Height (CM)", name: "height" },
-  ];
+    { label: "Full name", name: "name", type: "text" },
+    { label: "Email", name: "email", type: "email" },
+    { label: "Password", name: "password", type: "password" },
+    { label: "Password confirmation", name: "passwordConfirmation", type: "password" },
+    { label: "Gender", name: "gender", type: "select", options: ["Masculine", "Feminine"] },
+    { label: "US Shoe Size", name: "shoeSize", type: "number" },
+    { label: "Age", name: "age", type: "number" },
+    { label: "Weight (KG)", name: "weight", type: "number" },
+    { label: "Height (CM)", name: "height", type: "number" },
+];
 
   return (
     <main>
@@ -90,23 +92,35 @@ export default function Cadastro() {
         </p>
         <div className="flex items-center content-center flex-col w-6/12">
           <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8" onSubmit={postUsers}>
-            {inputs.map((input) => (
-              <div key={input.name}>
+          {inputs.map((input) => (
+            <div key={input.name}>
                 <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
-                  {input.label}
+                    {input.label}
                 </label>
                 {input.options ? (
-                  <select name={input.name} id={input.name} className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" required>
-                    <option value="" disabled selected hidden>Select an option</option>
-                    {input.options.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
+                    <select
+                        name={input.name}
+                        id={input.name}
+                        className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        required
+                    >
+                        <option value="" disabled defaultValue>Select an option</option>
+                        {input.options.map((option) => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
                 ) : (
-                  <input type="text" name={input.name} id={input.name} className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5" required />
+                    <input
+                        type={input.type || 'text'}
+                        name={input.name}
+                        id={input.name}
+                        className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                        required
+                    />
                 )}
-              </div>
-            ))}
+            </div>
+        ))}
+
             <div className="flex justify-center">
               <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Sign up</button>
             </div>
