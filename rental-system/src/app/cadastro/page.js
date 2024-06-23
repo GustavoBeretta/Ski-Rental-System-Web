@@ -28,15 +28,22 @@ export default function Cadastro() {
     const weight = document.getElementById("weight").value;
     const height = document.getElementById("height").value;
 
-    if (checaEmail(email)) {
+    if (checkIfEmailIsRegistered(email)) {
       window.alert("Email already registered");
+     return;
+    }
+      
+    if (password !== passwordConfirmation) {
+      window.alert("Passwords do not match");
       return;
     }
+
+    const hashPassword =  await getHashPassword(password);
 
     const dadosCadastro = {
       name: fullName,
       email: email,
-      password: password,
+      password: hashPassword,
       gender: gender,
       shoeSize: shoeSize,
       age: age,
