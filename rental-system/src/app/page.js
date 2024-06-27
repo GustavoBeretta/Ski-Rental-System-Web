@@ -19,12 +19,12 @@ export default function Login() {
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value.toLowerCase();
         const password = document.getElementById("password").value;
 
         const user = await findUser(email);
 
-        if (!user) {    
+        if (!user) {
             window.alert("User not found");
             return;
         }
@@ -36,7 +36,7 @@ export default function Login() {
                 return;
             }
         });
-        
+
         if (isEmployeeLogin) {
             if (user.role !== "employee") {
                 window.alert("User is not an employee");
@@ -61,7 +61,7 @@ export default function Login() {
     return (
         <main>
             <section>
-                <div className="flex flex-col items-center justify-center px-6 py-8 mt-52 lg:py-0">
+                <div className="flex flex-col items-center justify-center px-6 py-8 lg:py-0">
                     <h1 id="title" className="text-5xl text-[#8F8E8E] mb-5">
                         {isEmployeeLogin ? 'Employee Login' : 'Guest Login'}
                     </h1>
