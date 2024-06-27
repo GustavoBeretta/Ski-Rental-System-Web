@@ -12,7 +12,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-between pt-52 py-0 mb-0">
+    <main className="flex flex-col items-center justify-between py-0 mb-0">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-60">
         <div className="flex flex-col items-center justify-center">
           <h1 className="text-4xl mb-1 text-[#8F8E8E]">NEW RENTAL REQUEST</h1>

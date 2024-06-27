@@ -61,7 +61,7 @@ export default function Login() {
     return (
         <main>
             <section>
-                <div className="flex flex-col items-center justify-center px-6 py-8 mt-20 lg:py-0">
+                <div className="flex flex-col items-center justify-center px-6 py-8 lg:py-0">
                     <h1 id="title" className="text-5xl text-[#8F8E8E] mb-5">
                         {isEmployeeLogin ? 'Employee Login' : 'Guest Login'}
                     </h1>

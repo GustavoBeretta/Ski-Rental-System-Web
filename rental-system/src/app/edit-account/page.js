@@ -13,7 +13,7 @@ export default function EditAccount() {
     function getHashPassword(senha) {
         return bcrypt.hash(senha, 10);
     }
-    
+
     function passwordMatch(senha, hash) {
         return bcrypt.compare(senha, hash);
     }
@@ -96,10 +96,10 @@ export default function EditAccount() {
 
     return (
         <main>
-            <section className="flex flex-col items-center justify-center px-6 py-8 lg:py-0 snap-none">
-                <h1 className="text-4xl text-[#8F8E8E] pt-6">Edit Account Information</h1>
-                <div className="flex items-center content-center flex-col w-6/12">
-                    <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8" onSubmit={updateUser}>
+            <section className="flex flex-col items-center justify-center snap-none">
+                <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit Account Information</h1>
+                <div className="flex items-center content-center flex-col lg:w-6/12 ">
+                    <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={updateUser}>
                         {inputs.map((input) => (
                             <div key={input.name}>
                                 <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
