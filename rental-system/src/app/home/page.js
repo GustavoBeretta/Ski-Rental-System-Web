@@ -10,6 +10,42 @@ export default function Home() {
   const handleClickRentalRequests = () => {
     router.push('/rental-requests');
   }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const sport = document.getElementById('sport').value;
+    const ski_board = document.getElementById('ski-board').checked;
+    const boots = document.getElementById('boots').checked;
+    const helmet = document.getElementById('helmet').checked;
+
+    const rentalRequest = {
+      userId: 123,
+      sport: sport,
+      status: 'in-progress',
+      ski_board: ski_board,
+      boots: boots,
+      helmet: helmet
+    };
+
+    const rentalRequestJSON = JSON.stringify(rentalRequest);
+    try {
+      const res = await fetch('http://localhost:3000/api/rental-requests', {
+        cache: "no-store",
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: rentalRequestJSON
+      });
+      if (!res.ok) {
+        throw new Error("Failed to fetch the rental requests")
+      }
+
+      alert('Rental request submitted successfully!');
+    } catch (error) {
+      console.log("Error loading topics: ", error)
+    }
+  }
 
   return (
     <main className="flex flex-col items-center justify-between py-0 mb-0">
@@ -20,7 +56,7 @@ export default function Home() {
           <form className="space-y-4 md:space-y-6 w-3/4 mb-4" action="#">
             <div>
               <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#8F8E8E]">SPORT</label>
-              <select className="bg-[#ECECEC] border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+              <select id='sport' className="bg-[#ECECEC] border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                 <option>SKI</option>
                 <option>SNOWBOARD</option>
               </select>
@@ -61,7 +97,7 @@ export default function Home() {
               </div>
             </div>
           </form>
-          <button type="submit" className="w-2/4 text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">submit</button>
+          <button type="submit" onClick={handleSubmit} className="w-2/4 text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
         </div>
         <div className="flex flex-col justify-center space-y-10">
           <button type="submit" onClick={handleClickRentalRequests} className="text-white bg-[#4094A5] hover:bg-[#81C9D8] focus:ring-4 focus:outline-none focus:ring-primary-300 font-extrabold rounded-3xl text-3xl px-5 py-2.5 text-center h-full">Rental Historic</button>
