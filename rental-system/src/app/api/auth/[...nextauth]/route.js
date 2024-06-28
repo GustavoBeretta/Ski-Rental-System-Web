@@ -33,7 +33,9 @@ const authOptions = {
                         return null
                     }
 
-                    if (isEmployeeLogin == true) {
+                    const employee = Boolean(isEmployeeLogin)
+
+                    if (employee) {
                         if (user.role !== "employee") {
                             return null
                         }

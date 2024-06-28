@@ -17,6 +17,7 @@ export default function Login() {
         e.preventDefault()
 
         try {
+
             const res = await signIn("credentials", {
                 email, password, isEmployeeLogin, redirect:false,
             })
