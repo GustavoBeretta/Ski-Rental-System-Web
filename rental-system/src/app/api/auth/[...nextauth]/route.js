@@ -20,7 +20,7 @@ const authOptions = {
                 const { email, password, isEmployeeLogin } = credentials
 
                 try {
-                    await connectMongoDB
+                    await connectMongoDB()
                     const user = await findUser(email)
                     
                     if (!user) {
