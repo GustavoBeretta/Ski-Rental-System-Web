@@ -33,7 +33,6 @@ const authOptions = {
                         return null
                     }
 
-                    console.log(typeof(isEmployeeLogin))
                     if (isEmployeeLogin == true) {
                         if (user.role !== "employee") {
                             return null
