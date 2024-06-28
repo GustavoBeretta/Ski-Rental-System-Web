@@ -1,17 +1,17 @@
-const RentalRequestCard = ({status, created}) => {
+const RentalRequestCard = ({status, time, date}) => {
 
     return (
-    <div className="rounded-lg bg-gray-200">
+    <button className="rounded-lg bg-gray-200">
         <div className="bg-sky-200 rounded-lg p-2">
-            <p>josef alguma coisa</p>
+            <p>josef</p>
         </div>
-        <div className="p-2">
-            <p>{created}</p>
-            <p>09:44</p>
+        <div className="p-2 text-left">
+            <p>{time}</p>
+            <p>{date}</p>
             <p>{status}</p>
         </div>
-
-    </div>
+    
+    </button>
     )
 }
 

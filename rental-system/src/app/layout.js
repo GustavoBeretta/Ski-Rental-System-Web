@@ -3,9 +3,9 @@ import "./globals.css";
 import NavBar from "./components/NavBar";
 import { AuthProvider } from './Providers'
 
-const poppins = Poppins({ 
-    weight: "500", 
-    subsets: ["latin"] 
+const poppins = Poppins({
+  weight: "500",
+  subsets: ["latin"]
 });
 
 export const metadata = {
@@ -19,9 +19,11 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <AuthProvider>
           <NavBar/>
-          {children}
+          <div className="lg:mt-20 p-4">
+            {children}
+          </div>
         </AuthProvider>
-        </body>
+      </body>
     </html>
   );
 }

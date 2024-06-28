@@ -22,7 +22,7 @@ export default function Cadastro() {
     event.preventDefault();
 
     const fullName = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.toLowerCase();
     const password = document.getElementById("password").value;
     const passwordConfirmation = document.getElementById("passwordConfirmation").value;
     const gender = document.getElementById("gender").value;
@@ -68,7 +68,7 @@ export default function Cadastro() {
         body: dadosCadastroJson
       });
       if (!res.ok) {
-        throw new Error("Failed to fetch the rental requests")
+        throw new Error("Failed to fetch the users")
       }
 
       router.push('/');
