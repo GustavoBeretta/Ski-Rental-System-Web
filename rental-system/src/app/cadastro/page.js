@@ -1,4 +1,5 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import bcrypt from 'bcryptjs';
@@ -18,7 +19,7 @@ export default function Cadastro() {
   const router = useRouter();
 
   const postUsers = async (event) => {
-    event.preventDefault(); // Evita o reload da página
+    event.preventDefault();
 
     const fullName = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -78,15 +79,15 @@ export default function Cadastro() {
   }
 
   const inputs = [
-    { label: "Full name", name: "name", type: "text" },
-    { label: "Email", name: "email", type: "email" },
-    { label: "Password", name: "password", type: "password" },
-    { label: "Password confirmation", name: "passwordConfirmation", type: "password" },
-    { label: "Gender", name: "gender", type: "select", options: ["Masculine", "Feminine"] },
-    { label: "US Shoe Size", name: "shoeSize", type: "number" },
-    { label: "Age", name: "age", type: "number" },
-    { label: "Weight (KG)", name: "weight", type: "number" },
-    { label: "Height (CM)", name: "height", type: "number" },
+    { label: "FULL NAME:", name: "name", type: "text" },
+    { label: "EMAIL:", name: "email", type: "email" },
+    { label: "PASSWORD:", name: "password", type: "password" },
+    { label: "PASSWORD CONFIRMATION:", name: "passwordConfirmation", type: "password" },
+    { label: "GENDER:", name: "gender", type: "select", options: ["Male", "Female"] },
+    { label: "US SHOE SIZE:", name: "shoeSize", type: "number" },
+    { label: "AGE:", name: "age", type: "number" },
+    { label: "WEIGHT (KG):", name: "weight", type: "number" },
+    { label: "HEIGHT (CM):", name: "height", type: "number" },
 ];
 
   return (
@@ -94,7 +95,7 @@ export default function Cadastro() {
       <section className="flex flex-col items-center justify-center px-6 py-8 lg:py-0 snap-none">
         <h1 className="text-4xl text-[#8F8E8E] pt-6">Create New Account</h1>
         <p className="text-l text-[#4094A5] mt-4">
-          Already registered? <a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Sign in</a>
+          <a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Already registered? Sign in</a>
         </p>
         <div className="flex items-center content-center flex-col w-6/12">
           <form className="w-full bg-white rounded-lg p-6 space-y-4 sm:p-8" onSubmit={postUsers}>
@@ -126,7 +127,6 @@ export default function Cadastro() {
                 )}
             </div>
         ))}
-
             <div className="flex justify-center">
               <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Sign up</button>
             </div>

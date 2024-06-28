@@ -1,11 +1,4 @@
-
-
-
 const RentalRequestCard = ({status, created}) => {
-
-
-
-
 
     return (
     <div className="rounded-lg bg-gray-200">

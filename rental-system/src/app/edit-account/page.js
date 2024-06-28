@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 
 export default function EditAccount() {
-    const [userData, setUserData] = useState(null);// passar o object jason do usuario logado
+    const [userData, setUserData] = useState(null);// passar o object json do usuario logado
 
 
     function getHashPassword(senha) {
@@ -82,16 +82,15 @@ export default function EditAccount() {
     }
 
     const inputs = [
-        { label: "Full name", name: "name", type: "text" },
-        { label: "Email", name: "email", type: "email" },
-        { label: "Password", name: "password", type: "password" },
-        { label: "New Password", name: "newPassword", type: "password" },
-        { label: "New password confirmation", name: "newPasswordConfirmation", type: "password" },
-        { label: "Gender", name: "gender", type: "select", options: ["Masculine", "Feminine"] },
-        { label: "US Shoe Size", name: "shoeSize", type: "number" },
-        { label: "Age", name: "age", type: "number" },
-        { label: "Weight (KG)", name: "weight", type: "number" },
-        { label: "Height (CM)", name: "height", type: "number" },
+        { label: "FULL NAME:", name: "name", type: "text" },
+        { label: "EMAIL:", name: "email", type: "email" },
+        { label: "NEW PASSWORD:", name: "newPassword", type: "password" },
+        { label: "NEW PASSWORD CONFIRMATION:", name: "newPasswordConfirmation", type: "password" },
+        { label: "GENDER:", name: "gender", type: "select", options: ["Male", "Female"] },
+        { label: "US SHOE SIZE:", name: "shoeSize", type: "number" },
+        { label: "AGE:", name: "age", type: "number" },
+        { label: "WEIGHT (KG):", name: "weight", type: "number" },
+        { label: "HEIGHT (CM):", name: "height", type: "number" },
     ];
 
     return (

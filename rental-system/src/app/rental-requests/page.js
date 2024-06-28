@@ -5,7 +5,7 @@ const getRequests = async() => {
       const res = await fetch('http://localhost:3000/api/rental-requests', {
        cache: "no-store"});
       if(!res.ok) {
-          throw new Error("Failed to tetch the rental requests")
+          throw new Error("Failed to fetch the rental requests")
       }
 
       return res.json();

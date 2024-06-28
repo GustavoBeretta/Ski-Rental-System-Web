@@ -1,6 +1,5 @@
 'use client';
 
-import bcrypt from 'bcryptjs';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react'
@@ -17,7 +16,6 @@ export default function Login() {
         e.preventDefault()
 
         try {
-
             const res = await signIn("credentials", {
                 email, password, isEmployeeLogin, redirect:false,
             })
@@ -32,48 +30,6 @@ export default function Login() {
             console.log(error)
         }
     }
-
-    /*
-
-    async function findUser(email) {
-        const response = await fetch("http://localhost:3000/api/users");
-        const usuarios = await response.json();
-        const user = await usuarios.users.find((usuario) => usuario.email === email);
-        return user;
-    }
-
-    const router = useRouter();
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        const user = await findUser(email);
-
-        if (!user) {    
-            window.alert("User not found");
-            return;
-        }
-
-        bcrypt.compare(password, user.password, (err, res) => {
-            if (!res) {
-                window.alert("Incorrect password");
-                router.push("/");
-                return;
-            }
-        });
-
-        if (isEmployeeLogin) {
-            if (user.role !== "employee") {
-                window.alert("User is not an employee");
-                return;
-            }
-        }
-
-        router.push("/home");
-    }*/
 
     const handleEmployeeLoginClick = () => {
         setIsEmployeeLogin(true);
@@ -91,11 +47,11 @@ export default function Login() {
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
                                 <div>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#8F8E8E]">EMAIL</label>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#8F8E8E]">EMAIL:</label>
                                     <input onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" className="bg-[#ECECEC] border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="" />
                                 </div>
                                 <div>
-                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-[#8F8E8E]">PASSWORD</label>
+                                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-[#8F8E8E]">PASSWORD:</label>
                                     <input onChange={(e) => setPassword(e.target.value)} type="password" name="password" id="password" placeholder="••••••••" className="bg-[#ECECEC] border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="" />
                                 </div>
                                 <div className="flex items-center justify-center flex-col">

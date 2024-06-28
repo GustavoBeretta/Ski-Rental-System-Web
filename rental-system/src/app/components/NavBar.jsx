@@ -6,11 +6,11 @@ const NavBar = () => {
     return (
         <nav className="bg-[#81C9D8] p-2 overflow-y-hidden">
             <div className="flex mx-auto justify-between items-center">
-                <a href="#" className="text-gray-600 hover:text-white text-l ">RENTAL SYSTEM</a>
+                <p href="#" className="text-gray-600 hover:text-white text-l ">RENTAL SYSTEM</p>
                     <a onClick={() => signOut()} href="#">
                         <img className="h-8 w-8" src="/home-icon.png" alt="Home Icon" />
                     </a>
-                    <a href="#" className="text-gray-600 hover:text-white">Wisp Resort</a>
+                    <p href="#" className="text-gray-600 hover:text-white">Wisp Resort</p>
             </div>
         </nav>
     );
