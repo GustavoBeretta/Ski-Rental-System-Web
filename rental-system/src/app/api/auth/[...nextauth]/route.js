@@ -22,23 +22,25 @@ const authOptions = {
                 try {
                     await connectMongoDB()
                     const user = await findUser(email)
-                    
+
                     if (!user) {
                         return null
                     }
-                    
+
                     const passwordsMatch = await bcrypt.compare(password, user.password)
-                    
+
                     if (!passwordsMatch) {
                         return null
                     }
-                    
-                    if (isEmployeeLogin) {
+                    console.log(isEmployeeLogin)
+                    console.log(user.role)
+                    if (isEmployeeLogin == true) {
+                        console.log(isEmployeeLogin)
                         if (user.role !== "employee") {
                             return null
                         }
                     }
-                    
+
                     return user
                 } catch (error) {
                     console.log('Error: ', error)
