@@ -32,10 +32,9 @@ const authOptions = {
                     if (!passwordsMatch) {
                         return null
                     }
-                    console.log(isEmployeeLogin)
-                    console.log(user.role)
+
+                    console.log(typeof(isEmployeeLogin))
                     if (isEmployeeLogin == true) {
-                        console.log(isEmployeeLogin)
                         if (user.role !== "employee") {
                             return null
                         }
