@@ -16,3 +16,10 @@ export async function GET(request, {params}) {
     const rentalRequest = await RentalRequest.findOne({_id: id});
     return NextResponse.json({rentalRequest}, {status: 200});
 }
+
+export async function DELETE(request, {params}) {
+    const {id} = params;
+    await connectMongoDB();
+    await RentalRequest.findByIdAndDelete(id);
+    return NextResponse.json({message: "Rental request deleted"}, {status: 200});
+}
