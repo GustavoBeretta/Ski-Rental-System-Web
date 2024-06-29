@@ -18,17 +18,17 @@ export default async function RentalRequestsPage() {
   const { users } = await getUsers();
 
   return (
-    <main className="mt-0 flex flex-col items-center justify-between">
+    <main className="mt-20 flex flex-col items-center justify-between">
       <div className="mb-20 mt-0">
         <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
       </div>
       <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
         {users.map(r => (
           <UserCard
-          name={r.name}
-          gender={r.gender}
-          age={r.age}
-          _id={r._id}
+            name={r.name}
+            gender={r.gender}
+            age={r.age}
+            _id={r._id}
           />
         ))}
       </div>

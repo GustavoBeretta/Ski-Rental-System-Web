@@ -1,22 +1,19 @@
 'use client';
 
-//TERMINAR A IMPLEMENTAÇÃO DO EDIT ACCOUNT/ FALTA AINDA A IMPLEMENTAÇÃO DO REQ DO USUARIO QUE ESTA LOGADO PARA PEGAR OS DADOS DELE E MOSTRAR NO FORMULARIO
-
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
-import bcrypt from 'bcryptjs';
 
 export default function EditAccount() {
-    const [userData, setUserData] = useState({}); // Inicializa com um objeto vazio
+    const [userData, setUserData] = useState({});
+    const [dadosCadastro, setDadosCadastro] = useState({});
 
     const router = useRouter();
-
     const currentUrl = window.location.href;
     const urlObj = new URL(currentUrl);
     const params = new URLSearchParams(urlObj.search);
     const id = params.get('id');
 
-    // Função para buscar os dados do usuário
+
     async function getUserID() {
         try {
             const res = await fetch(`http://localhost:3000/api/users/${id}`, {
@@ -26,21 +23,18 @@ export default function EditAccount() {
                 throw new Error("Failed to fetch the user information");
             }
             const userData = await res.json();
-            console.log("User information loaded successfully");
-            setUserData(userData);
+            setUserData(await userData.user);
         } catch (error) {
             console.log("Error loading user information: ", error);
         }
     }
-
-    // Chamada para buscar os dados do usuário quando a página carrega
     useEffect(() => {
         if (id) {
             getUserID();
         }
     }, [id]);
 
-    const updateUser = async (event) => {        
+    const updateUser = async (event) => {
         event.preventDefault();
 
         const fullName = document.getElementById("name").value;
@@ -54,41 +48,57 @@ export default function EditAccount() {
         const height = document.getElementById("height").value;
         const employeeYes = document.getElementById("employee-Yes").checked ? "employee" : "guest";
 
-        if (password !== passwordConfirmation) {
-            window.alert("Passwords do not match");
-            return;
+
+        if (password && passwordConfirmation) {
+            if (password !== passwordConfirmation) {
+                window.alert("Passwords do not match");
+                return;
+            }
+
+            const hashPassword = await getHashPassword(password);
+
+            const dadosCadastro = {
+                newName: fullName,
+                newEmail: email,
+                newPassword: hashPassword,
+                newGender: gender,
+                newShoeSize: shoeSize,
+                newAge: age,
+                newWeight: weight,
+                newHeight: height,
+                newRole: employeeYes,
+            }
+            setDadosCadastro(JSON.stringify(dadosCadastro));
+        } else {
+            const dadosCadastro = {
+                newName: fullName,
+                newEmail: email,
+                newPassword: userData.password,
+                newGender: gender,
+                newShoeSize: shoeSize,
+                newAge: age,
+                newWeight: weight,
+                newHeight: height,
+                newRole: employeeYes,
+            };
+            setDadosCadastro(JSON.stringify(dadosCadastro));
         }
 
-        const hashPassword = await getHashPassword(password);
-
-        const dadosCadastro = {
-            newName: fullName,
-            newEmail: email,
-            newPassword: hashPassword,
-            newGender: gender,
-            newShoeSize: shoeSize,
-            newAge: age,
-            newWeight: weight,
-            newHeight: height,
-            newRole: employeeYes,
-        }
-
-        const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${id}`, {// Passar o id do usuário logado apos o users/{id}
+            const res = await fetch(`http://localhost:3000/api/users/${id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: dadosCadastroJson
+                body: dadosCadastro
             });
             if (!res.ok) {
                 throw new Error("Failed to update user information");
             }
-            console.log("User information updated successfully");
-            router.push('/');
+            window.alert("User information updated successfully");
+            router.push('/homeEmployee');
 
         } catch (error) {
             console.log("Error updating user information:", error);
@@ -123,13 +133,19 @@ export default function EditAccount() {
                                     <select
                                         name={input.name}
                                         id={input.name}
-                                        defaultValue={userData ? userData[input.name] : ''}
+                                        value={userData[input.name] || ''}
                                         className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                         required
                                     >
-                                        <option value="" disabled defaultValue>Select an option</option>
+                                        <option value="" disabled>Select an option</option>
                                         {input.options.map((option) => (
-                                            <option key={option} value={option}>{option}</option>
+                                            <option
+                                                key={option}
+                                                value={option}
+                                                selected={userData[input.name] === option}
+                                            >
+                                                {option}
+                                            </option>
                                         ))}
                                     </select>
                                 ) : input.type === 'checkbox' ? (
@@ -141,7 +157,7 @@ export default function EditAccount() {
                                                     name={input.name}
                                                     id={`${input.name}-${option}`}
                                                     value={option}
-                                                    defaultChecked={userData ? userData[input.name] === option : false}
+                                                    defaultChecked={userData.role === 'employee'}
                                                 />
                                                 <span>{option}</span>
                                             </label>
@@ -154,7 +170,6 @@ export default function EditAccount() {
                                         id={input.name}
                                         defaultValue={userData ? userData[input.name] : ''}
                                         className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                        required
                                     />
                                 )}
                             </div>

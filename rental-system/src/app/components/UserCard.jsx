@@ -6,7 +6,7 @@ const UserCard = ({ name, gender, age, _id}) => {
     
     const router = useRouter();
     const handleCardClick = () => {
-        router.push(`/edit-account-employee?id=${_id}`);
+        window.location.href = `/edit-account-employee?id=${_id}`;
     }
     return (
         <button className="rounded-lg bg-gray-200" onClick={handleCardClick}>
