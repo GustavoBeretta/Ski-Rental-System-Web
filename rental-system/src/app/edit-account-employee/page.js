@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import bcrypt from 'bcryptjs';
 
 export default function EditAccount() {
     const [userData, setUserData] = useState({});
@@ -13,6 +14,9 @@ export default function EditAccount() {
     const params = new URLSearchParams(urlObj.search);
     const id = params.get('id');
 
+    function getHashPassword(senha) {
+        return bcrypt.hash(senha, 10);
+    }
 
     async function getUserID() {
         try {
@@ -98,7 +102,7 @@ export default function EditAccount() {
                 throw new Error("Failed to update user information");
             }
             window.alert("User information updated successfully");
-            router.push('/homeEmployee');
+            router.push('/usersRegistered');
 
         } catch (error) {
             console.log("Error updating user information:", error);

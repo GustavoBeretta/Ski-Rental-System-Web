@@ -1,10 +1,21 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
 
 export default function Home() {
   const router = useRouter();
+  const [userData, setUserData] = useState(null);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session && session.user) {
+        const user = session.user;
+        setUserData(user);
+    }
+  }, [session]);
 
   const handleClickEditAccount = () => {
     router.push('/edit-account');
@@ -15,15 +26,21 @@ export default function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const userId = userData._id;
     const sport = document.getElementById('sport').value;
     const ski_board = document.getElementById('ski-board').checked;
     const boots = document.getElementById('boots').checked;
     const helmet = document.getElementById('helmet').checked;
 
+    if(!ski_board && !boots && !helmet) {
+      alert('Please select at least one item to rent');
+      return;
+    }
+
     const rentalRequest = {
-      userId: 123,
+      userId: userId,
       sport: sport,
-      status: 'in-progress',
+      status: 'send',
       ski_board: ski_board,
       boots: boots,
       helmet: helmet
