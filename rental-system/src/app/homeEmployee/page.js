@@ -46,7 +46,7 @@ export default async function HomeEmployee() {
     console.log(requests);
     return (
         <div>
-            <NavBar showHomeIcon={true} />
+            <NavBar showLogOutIcon={true} showUsersIcon={true}/>
             <main className="mt-10 flex flex-col items-center justify-between">
                 <div className="mb-10">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Requests</h1>

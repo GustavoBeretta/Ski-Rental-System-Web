@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import bcrypt from 'bcryptjs';
+import NavBar from "../components/NavBar";
 
 export default function EditAccount() {
     const [userData, setUserData] = useState({});
@@ -139,67 +140,70 @@ export default function EditAccount() {
     ];
 
     return (
-        <main>
-            <section className="flex flex-col items-center justify-center snap-none">
-                <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit Account Information</h1>
-                <div className="flex items-center content-center flex-col lg:w-6/12 ">
-                    <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={updateUser}>
-                        {inputs.map((input) => (
-                            <div key={input.name}>
-                                <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
-                                    {input.label}
-                                </label>
-                                {input.type === 'select' ? (
-                                    <select
-                                        name={input.name}
-                                        id={input.name}
-                                        value={userData[input.name] || ''}
-                                        onChange={handleChange}
-                                        className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                        required
-                                    >
-                                        {input.options.map((option) => (
-                                            <option
-                                                key={option}
-                                                value={option}
-                                            >
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : input.type === 'checkbox' ? (
-                                    <div>
-                                        {input.options.map((option) => (
-                                            <label key={option}>
-                                                <input
-                                                    type="checkbox"
-                                                    name={input.name}
-                                                    id={`${input.name}-${option}`}
+        <div>
+            <NavBar showEmployeeHomeIcon={true}/>
+            <main className="mt-10">
+                <section className="flex flex-col items-center justify-center snap-none">
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit Account Information</h1>
+                    <div className="flex items-center content-center flex-col lg:w-6/12 ">
+                        <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={updateUser}>
+                            {inputs.map((input) => (
+                                <div key={input.name}>
+                                    <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
+                                        {input.label}
+                                    </label>
+                                    {input.type === 'select' ? (
+                                        <select
+                                            name={input.name}
+                                            id={input.name}
+                                            value={userData[input.name] || ''}
+                                            onChange={handleChange}
+                                            className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                            required
+                                        >
+                                            {input.options.map((option) => (
+                                                <option
+                                                    key={option}
                                                     value={option}
-                                                    checked={userData.role === 'employee'}
-                                                    onChange={handleCheckboxChange}
-                                                />
-                                                <span>{option}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <input
-                                        type={input.type || 'text'}
-                                        name={input.name}
-                                        id={input.name}
-                                        defaultValue={userData ? userData[input.name] : ''}
-                                        className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                    />
-                                )}
+                                                >
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : input.type === 'checkbox' ? (
+                                        <div>
+                                            {input.options.map((option) => (
+                                                <label key={option}>
+                                                    <input
+                                                        type="checkbox"
+                                                        name={input.name}
+                                                        id={`${input.name}-${option}`}
+                                                        value={option}
+                                                        checked={userData.role === 'employee'}
+                                                        onChange={handleCheckboxChange}
+                                                    />
+                                                    <span>{option}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <input
+                                            type={input.type || 'text'}
+                                            name={input.name}
+                                            id={input.name}
+                                            defaultValue={userData ? userData[input.name] : ''}
+                                            className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                            <div className="flex justify-center">
+                                <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Save</button>
                             </div>
-                        ))}
-                        <div className="flex justify-center">
-                            <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
     );
 }

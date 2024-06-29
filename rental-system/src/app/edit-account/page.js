@@ -113,7 +113,7 @@ export default function EditAccount() {
 
     return (
         <div>
-            <NavBar showHomeIcon={true}/>
+            <NavBar showGuestHomeIcon={true}/>
             <main className="lg:mt-5 p-4">
                 <section className="flex flex-col items-center justify-center snap-none">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit Account Information</h1>

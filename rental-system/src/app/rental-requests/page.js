@@ -37,7 +37,7 @@ export default async function RentalRequestsPage() {
 
   return (
     <div>
-      <NavBar showHomeIcon={true}/>
+      <NavBar showGuestHomeIcon={true}/>
       <main className="mt-20 flex flex-col items-center justify-between">
         <div className="mb-10">
           <h1 className="text-3xl">Rental Requests</h1>

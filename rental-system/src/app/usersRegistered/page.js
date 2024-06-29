@@ -20,6 +20,7 @@ export default async function UsersRegistered() {
 
   return (
     <div>
+      <NavBar showEmployeeHomeIcon={true}/>
       <main className="flex flex-col items-center justify-between lg:mt-20 p-4">
         <div className="mb-20 mt-0">
           <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
