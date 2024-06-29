@@ -105,6 +105,22 @@ export default function EditAccount() {
         }
     }
 
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setUserData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setUserData((prevState) => ({
+            ...prevState,
+            [name]: checked ? 'employee' : '',
+        }));
+    };
+
     const inputs = [
         { label: "FULL NAME:", name: "name", type: "text" },
         { label: "EMAIL:", name: "email", type: "email" },
@@ -134,15 +150,14 @@ export default function EditAccount() {
                                         name={input.name}
                                         id={input.name}
                                         value={userData[input.name] || ''}
+                                        onChange={handleChange}
                                         className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                         required
                                     >
-                                        <option value="" disabled>Select an option</option>
                                         {input.options.map((option) => (
                                             <option
                                                 key={option}
                                                 value={option}
-                                                selected={userData[input.name] === option}
                                             >
                                                 {option}
                                             </option>
@@ -157,7 +172,8 @@ export default function EditAccount() {
                                                     name={input.name}
                                                     id={`${input.name}-${option}`}
                                                     value={option}
-                                                    defaultChecked={userData.role === 'employee'}
+                                                    checked={userData.role === 'employee'}
+                                                    onChange={handleCheckboxChange}
                                                 />
                                                 <span>{option}</span>
                                             </label>
