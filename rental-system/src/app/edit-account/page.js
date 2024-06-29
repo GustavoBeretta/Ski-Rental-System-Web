@@ -4,11 +4,39 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
 
 export default function EditAccount() {
-    const { data: session } = useSession()
-    const [userData] = useState(session?.user);
+    const { data: session, status } = useSession();
+    const [userData, setUserData] = useState(null);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        email: '',
+        antigaPassword: '',
+        newPassword: '',
+        newPasswordConfirmation: '',
+        gender: '',
+        shoeSize: '',
+        age: '',
+        weight: '',
+        height: ''
+    });
+
+    useEffect(() => {
+        if (session && session.user) {
+            const user = session.user;
+            setUserData(user);
+            setFormData({
+                fullName: user.name || '',
+                email: user.email || '',
+                gender: user.gender || '',
+                shoeSize: user.shoeSize || '',
+                age: user.age || '',
+                weight: user.weight || '',
+                height: user.height || ''
+            });
+        }
+    }, [session]);
 
     function getHashPassword(senha) {
         return bcrypt.hash(senha, 10);
@@ -23,46 +51,36 @@ export default function EditAccount() {
     const updateUser = async (event) => {
         event.preventDefault();
 
-        const fullName = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const antigaPassword = document.getElementById("password").value;
-        const password = document.getElementById("newPassword").value;
-        const passwordConfirmation = document.getElementById("newPasswordConfirmation").value;
-        const gender = document.getElementById("gender").value;
-        const shoeSize = document.getElementById("shoeSize").value;
-        const age = document.getElementById("age").value;
-        const weight = document.getElementById("weight").value;
-        const height = document.getElementById("height").value;
-
-        if (password !== passwordConfirmation) {
+        if (formData.newPassword !== formData.newPasswordConfirmation) {
             window.alert("Passwords do not match");
             return;
         }
-        const hashAntigaPassword = await getHashPassword(antigaPassword);
 
-        if (passwordMatch(hashAntigaPassword, userData.password)) {
+        const hashAntigaPassword = await getHashPassword(formData.antigaPassword);
+
+        if (await passwordMatch(hashAntigaPassword, userData.password)) {
             window.alert("Password is the same as the current one");
             return;
         }
 
-        const hashPassword = await getHashPassword(password);
+        const hashPassword = await getHashPassword(formData.newPassword);
 
         const dadosCadastro = {
-            newName: fullName,
-            newEmail: email,
+            newName: formData.fullName,
+            newEmail: formData.email,
             newPassword: hashPassword,
-            newGender: gender,
-            newShoeSize: shoeSize,
-            newAge: age,
-            newWeight: weight,
-            newHeight: height,
+            newGender: formData.gender,
+            newShoeSize: formData.shoeSize,
+            newAge: formData.age,
+            newWeight: formData.weight,
+            newHeight: formData.height,
             newRole: "guest"
-        }
+        };
 
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
         try {
-            const res = await fetch('http://localhost:3000/api/users/66788365fb1e9dd356a36880', {// Passar o id do usuário logado apos o users/{id}
+            const res = await fetch(`http://localhost:3000/api/users/${userData.id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {
@@ -79,10 +97,18 @@ export default function EditAccount() {
         } catch (error) {
             console.log("Error updating user information:", error);
         }
-    }
+    };
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     const inputs = [
-        { label: "FULL NAME:", name: "name", type: "text" },
+        { label: "FULL NAME:", name: "fullName", type: "text" },
         { label: "EMAIL:", name: "email", type: "email" },
         { label: "NEW PASSWORD:", name: "newPassword", type: "password" },
         { label: "NEW PASSWORD CONFIRMATION:", name: "newPasswordConfirmation", type: "password" },
@@ -92,6 +118,10 @@ export default function EditAccount() {
         { label: "WEIGHT (KG):", name: "weight", type: "number" },
         { label: "HEIGHT (CM):", name: "height", type: "number" },
     ];
+
+    if (status === 'loading' || !userData) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
@@ -110,6 +140,8 @@ export default function EditAccount() {
                                         <select
                                             name={input.name}
                                             id={input.name}
+                                            value={formData[input.name]}
+                                            onChange={handleChange}
                                             className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                             required
                                         >
@@ -123,7 +155,8 @@ export default function EditAccount() {
                                             type={input.type || 'text'}
                                             name={input.name}
                                             id={input.name}
-                                            defaultValue={userData ? userData[input.name] : ''}
+                                            value={formData[input.name]}
+                                            onChange={handleChange}
                                             className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                             required
                                         />
@@ -131,7 +164,7 @@ export default function EditAccount() {
                                 </div>
                             ))}
                             <div className="flex justify-center">
-                                <button type="submit" onClick={updateUser} className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Save</button>
+                                <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">Save</button>
                             </div>
                         </form>
                     </div>
