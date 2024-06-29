@@ -1,5 +1,6 @@
 import UserCard from "../components/UserCard";
 import NavBar from "../components/NavBar";
+import { getServerSession } from 'next-auth/next'
 
 const getUsers = async () => {
   try {
@@ -17,6 +18,7 @@ const getUsers = async () => {
 
 export default async function UsersRegistered() {
   const { users } = await getUsers();
+  const { user } = await getServerSession()
 
   return (
     <div>
@@ -27,12 +29,14 @@ export default async function UsersRegistered() {
         </div>
         <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
           {users.map(r => (
-            <UserCard
-            name={r.name}
-            gender={r.gender}
-            age={r.age}
-            _id={r._id}
-            />
+            user.email !== r.email && (
+              <UserCard
+              name={r.name}
+              gender={r.gender}
+              age={r.age}
+              _id={r._id}
+              />
+            )
           ))}
         </div>
       </main>
