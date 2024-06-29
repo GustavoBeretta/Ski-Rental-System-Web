@@ -16,3 +16,10 @@ export async function GET(request, {params}) {
     const user = await Users.findOne({_id: id});
     return NextResponse.json({user}, {status: 200});
 }
+
+export async function DELETE(request, {params}) {
+    const {id} = params;
+    await connectMongoDB();
+    await Users.findByIdAndDelete(id);
+    return NextResponse.json({message: "User deleted"}, {status: 200});
+}
