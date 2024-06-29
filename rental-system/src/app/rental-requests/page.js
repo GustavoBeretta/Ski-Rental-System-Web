@@ -1,4 +1,5 @@
 import RentalRequestCard from "../components/RentalRequestCard";
+import NavBar from "../components/NavBar";
 
 const getRequests = async () => {
   try {
@@ -35,20 +36,23 @@ export default async function RentalRequestsPage() {
   const { requests } = await getRequests();
 
   return (
-    <main className="mt-20 flex flex-col items-center justify-between">
-      <div className="mb-10">
-        <h1 className="text-3xl">Rental Requests</h1>
-      </div>
-      <div className="grid lg:grid-cols-8 gap-8 grid-cols-2 sm:gap-4">
-        {requests.map(r => (
-          <RentalRequestCard
-            key={r.id}
-            status={r.status}
-            date={formatDate(r.createdAt)}
-            time={formatTime(r.createdAt)}
-          />
-        ))}
-      </div>
-    </main>
+    <div>
+      <NavBar showHomeIcon={true}/>
+      <main className="mt-20 flex flex-col items-center justify-between">
+        <div className="mb-10">
+          <h1 className="text-3xl">Rental Requests</h1>
+        </div>
+        <div className="grid lg:grid-cols-8 gap-8 grid-cols-2 sm:gap-4">
+          {requests.map(r => (
+            <RentalRequestCard
+              key={r.id}
+              status={r.status}
+              date={formatDate(r.createdAt)}
+              time={formatTime(r.createdAt)}
+            />
+          ))}
+        </div>
+      </main>
+    </div>
   );
 }
