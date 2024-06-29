@@ -22,7 +22,7 @@ const authOptions = {
                 try {
                     await connectMongoDB()
                     const user = await findUser(email)
-                    console.log(user)
+
                     if (!user) {
                         return null
                     }

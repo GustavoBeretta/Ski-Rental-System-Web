@@ -26,7 +26,12 @@ export default function Login() {
                 return
             }
             
-            router.replace("home")
+            if (isEmployeeLogin) {
+                router.replace("homeEmployee")
+            } else {
+                router.replace("home")
+            }
+            
         } catch (error) {
             console.log(error)
         }
