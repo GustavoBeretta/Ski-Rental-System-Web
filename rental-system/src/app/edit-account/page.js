@@ -1,10 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
 import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react"
 
 export default function EditAccount() {
     const { data: session, status } = useSession();
@@ -12,7 +12,7 @@ export default function EditAccount() {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
-        antigaPassword: '',
+        currentPassword: '',
         newPassword: '',
         newPasswordConfirmation: '',
         gender: '',
@@ -38,16 +38,6 @@ export default function EditAccount() {
         }
     }, [session]);
 
-    function getHashPassword(senha) {
-        return bcrypt.hash(senha, 10);
-    }
-
-    function passwordMatch(senha, hash) {
-        return bcrypt.compare(senha, hash);
-    }
-
-    const router = useRouter();
-
     const updateUser = async (event) => {
         event.preventDefault();
 
@@ -56,14 +46,12 @@ export default function EditAccount() {
             return;
         }
 
-        const hashAntigaPassword = await getHashPassword(formData.antigaPassword);
-
-        if (await passwordMatch(hashAntigaPassword, userData.password)) {
-            window.alert("Password is the same as the current one");
+        if (!(await bcrypt.compare(formData.currentPassword, userData.password))) {
+            window.alert("Current password is not correct");
             return;
         }
 
-        const hashPassword = await getHashPassword(formData.newPassword);
+        const hashPassword = await bcrypt.hash(formData.newPassword, 10);
 
         const dadosCadastro = {
             newName: formData.fullName,
@@ -74,13 +62,13 @@ export default function EditAccount() {
             newAge: formData.age,
             newWeight: formData.weight,
             newHeight: formData.height,
-            newRole: "guest"
+            newRole: session.user.role
         };
 
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${userData.id}`, {
+            const res = await fetch(`http://localhost:3000/api/users/${userData._id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {
@@ -91,11 +79,10 @@ export default function EditAccount() {
             if (!res.ok) {
                 throw new Error("Failed to update user information");
             }
-            console.log("User information updated successfully");
-            router.push('/');
-
+            window.alert("User information updated successfully");
+            signOut()
         } catch (error) {
-            console.log("Error updating user information:", error);
+            window.alert("Error updating user information:", error);
         }
     };
 
@@ -110,6 +97,7 @@ export default function EditAccount() {
     const inputs = [
         { label: "FULL NAME:", name: "fullName", type: "text" },
         { label: "EMAIL:", name: "email", type: "email" },
+        { label: "CURRENT PASSWORD:", name: "currentPassword", type: "password" },
         { label: "NEW PASSWORD:", name: "newPassword", type: "password" },
         { label: "NEW PASSWORD CONFIRMATION:", name: "newPasswordConfirmation", type: "password" },
         { label: "GENDER:", name: "gender", type: "select", options: ["Male", "Female"] },
