@@ -31,25 +31,6 @@ export default function RentalRequestInformation() {
 
 
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
-
-        try {
-            const res = await fetch('http://localhost:3000/api/users/66788365fb1e9dd356a36880', {// Passar o id do usuário logado apos o users/{id}
-                cache: "no-store",
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: dadosCadastroJson
-            });
-            if (!res.ok) {
-                throw new Error("Failed to update user information");
-            }
-            console.log("User information updated successfully");
-            router.push('/');
-
-        } catch (error) {
-            console.log("Error updating user information:", error);
-        }
     }
 
     const getUser = async () => {
