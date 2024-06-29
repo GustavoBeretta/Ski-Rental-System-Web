@@ -1,4 +1,5 @@
 import UserCard from "../components/UserCard";
+import NavBar from "../components/NavBar";
 
 const getUsers = async () => {
   try {
@@ -18,6 +19,7 @@ export default async function RentalRequestsPage() {
   const { users } = await getUsers();
 
   return (
+<<<<<<< HEAD
     <main className="mt-20 flex flex-col items-center justify-between">
       <div className="mb-20 mt-0">
         <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
@@ -25,13 +27,32 @@ export default async function RentalRequestsPage() {
       <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
         {users.map(r => (
           <UserCard
+=======
+    <div>
+      <NavBar showHomeIcon={true}/>
+      <main className="flex flex-col items-center justify-between lg:mt-20 p-4">
+        <div className="mb-20 mt-0">
+          <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
+        </div>
+        <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
+          {users.map(r => (
+            <UserCard
+>>>>>>> 349334ff39ee9b7486821281e64678aa2435cad5
             name={r.name}
             gender={r.gender}
             age={r.age}
             _id={r._id}
+<<<<<<< HEAD
           />
         ))}
       </div>
     </main>
+=======
+            />
+          ))}
+        </div>
+      </main>
+    </div>
+>>>>>>> 349334ff39ee9b7486821281e64678aa2435cad5
   );
 }

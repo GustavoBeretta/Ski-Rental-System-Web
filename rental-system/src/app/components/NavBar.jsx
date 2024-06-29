@@ -8,7 +8,15 @@ const NavBar = ({ showHomeIcon, showLogOutIcon }) => {
     const router = useRouter();
 
     function RedirectHome() {
-        router.push('/home')
+
+        const currentPath = router.pathname
+
+        if (currentPath === "/edit-account-employee") {
+            router.push('/homeEmployee')
+        }   else {
+            router.push('/home')
+        }
+
     }
 
     return (
