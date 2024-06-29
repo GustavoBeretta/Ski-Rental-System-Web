@@ -15,7 +15,7 @@ const getUsers = async () => {
   }
 };
 
-export default async function RentalRequestsPage() {
+export default async function UsersRegistered() {
   const { users } = await getUsers();
 
   return (
