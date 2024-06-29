@@ -7,7 +7,7 @@ const getUsers = async () => {
       cache: "no-store"
     });
     if (!res.ok) {
-      throw new Error("Failed to fetch the rental requests");
+      throw new Error("Failed to fetch users");
     }
     return res.json();
   } catch (error) {
