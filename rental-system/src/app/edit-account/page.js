@@ -1,15 +1,14 @@
 'use client';
 
-//TERMINAR A IMPLEMENTAÇÃO DO EDIT ACCOUNT/ FALTA AINDA A IMPLEMENTAÇÃO DO REQ DO USUARIO QUE ESTA LOGADO PARA PEGAR OS DADOS DELE E MOSTRAR NO FORMULARIO
-
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
+import { useSession } from "next-auth/react"
 
 export default function EditAccount() {
-    const [userData, setUserData] = useState(null);// passar o object json do usuario logado
-
+    const { data: session } = useSession()
+    const [userData] = useState(session?.user);
 
     function getHashPassword(senha) {
         return bcrypt.hash(senha, 10);

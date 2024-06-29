@@ -10,7 +10,6 @@ const RentalRequestCard = ({status, time, date}) => {
             <p>{date}</p>
             <p>{status}</p>
         </div>
-    
     </button>
     )
 }

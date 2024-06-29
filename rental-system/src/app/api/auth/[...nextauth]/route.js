@@ -22,7 +22,7 @@ const authOptions = {
                 try {
                     await connectMongoDB()
                     const user = await findUser(email)
-                    
+                    console.log(user)
                     if (!user) {
                         return null
                     }
@@ -46,6 +46,16 @@ const authOptions = {
             },
         }),
     ],
+    callbacks: {
+        async jwt({ token, user }) {
+			user && (token.user = user);
+			return token;
+		},
+		async session({ session, token }) {
+			session.user = token.user;
+			return session;
+		},
+    },
     session: {
         strategy: "jwt",
     },
