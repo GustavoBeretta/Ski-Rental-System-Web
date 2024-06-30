@@ -13,6 +13,10 @@ export default function RentalRequestInformation() {
     const params = new URLSearchParams(urlObj.search);
     const id = params.get('id');
 
+    const topButtonHandler = () => {
+        router.push('/rental-requests');
+    }
+
     useEffect(() => {
         const fetchRentalRequestData = async () => {
             try {
@@ -108,7 +112,10 @@ export default function RentalRequestInformation() {
     return (
         <main>
             <section className="flex flex-col items-center justify-center snap-none">
-                <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Rental Request Information</h1>
+                <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Request Information</h1>
+                    <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={topButtonHandler}></button>
+                </div>
                 <div className="flex items-center content-center flex-col lg:w-6/12 ">
                     <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={handleSubmit}>
                         {inputs.map((input) => (
@@ -134,11 +141,11 @@ export default function RentalRequestInformation() {
                                         name={input.name}
                                         id={input.name}
                                         defaultValue={
-                                            rentalRequestData ? 
-                                            (input.name === 'date' ? formatDate(rentalRequestData.createdAt) :
-                                             input.name === 'time' ? formatTime(rentalRequestData.createdAt) :
-                                             rentalRequestData[input.name]) 
-                                            : ''
+                                            rentalRequestData ?
+                                                (input.name === 'date' ? formatDate(rentalRequestData.createdAt) :
+                                                    input.name === 'time' ? formatTime(rentalRequestData.createdAt) :
+                                                        rentalRequestData[input.name])
+                                                : ''
                                         }
                                         className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                         readOnly

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import UserCard from "../components/UserCard";
 import NavBar from "../components/NavBar";
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation'; // Alterado para next/navigation
+import { useRouter } from 'next/navigation';
 
 const getUsers = async () => {
   try {
@@ -15,10 +15,10 @@ const getUsers = async () => {
       throw new Error("Failed to fetch users");
     }
     const data = await res.json();
-    return data.users; // Supondo que a resposta da API seja um objeto com a propriedade `users`
+    return data.users;
   } catch (error) {
     console.error("Error loading users: ", error);
-    return []; // Retorna um array vazio em caso de erro
+    return [];o
   }
 };
 
@@ -43,8 +43,7 @@ const UsersRegistered = () => {
   }, [session]);
 
   useEffect(() => {
-    // Redirecionar usuários não autenticados ou guests para a página inicial
-    if (status === 'loading') return; // Evitar redirecionamentos durante o carregamento da sessão
+    if (status === 'loading') return; 
 
     if (!session || session.user.role === 'guest') {
       router.push('/home');
@@ -55,12 +54,10 @@ const UsersRegistered = () => {
     return <p>Loading...</p>;
   }
 
-  // Verifica se a sessão existe antes de renderizar
   if (!session) {
-    return null; // Pode retornar null enquanto o redirecionamento está sendo processado
+    return null;
   }
 
-  // Verifica se `users` não é um array
   if (!Array.isArray(users)) {
     return <p>Error loading users</p>;
   }
@@ -70,7 +67,7 @@ const UsersRegistered = () => {
       <NavBar showEmployeeHomeIcon={true}/>
       <main className="flex flex-col items-center justify-between lg:mt-20 p-4">
         <div className="mb-20 mt-0">
-          <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
+          <h1 className="text-5xl text-[#8F8E8E] text-center">Users Registered</h1>
         </div>
         <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
           {users.map(r => (
