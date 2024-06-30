@@ -1,5 +1,13 @@
-import RentalRequestCardEmployee from "../components/RentalRequestCardEmployee";
+'use client'
+
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic'; // Importação dinâmica para componentes que precisam de hooks do cliente
 import NavBar from "../components/NavBar";
+
+const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
+  ssr: false // Desabilita renderização do lado do servidor para esse componente
+});
 
 const getRequests = async () => {
     try {
@@ -11,7 +19,8 @@ const getRequests = async () => {
         }
         return res.json();
     } catch (error) {
-        console.log("Error loading topics: ", error);
+        console.error("Error loading rental requests: ", error);
+        throw error;
     }
 };
 
@@ -31,19 +40,39 @@ const formatTime = (timestamp) => {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export default async function HomeEmployee() {
-    const { requests } = await getRequests();
+const HomeEmployee = () => {
+    const { data: session, status } = useSession();
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getRequests();
+                setRequests(data.requests);
+                setLoading(false);
+            } catch (error) {
+                console.error("Failed to fetch rental requests:", error);
+                setLoading(false);
+            }
+        };
+
+        if (status === 'authenticated' && session?.user?.role === 'guest') {
+            window.location.href = '/home'; // Redireciona para a página inicial em vez de usar router.push
+        } else {
+            fetchData();
+        }
+    }, [session, status]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
 
     const sentRequests = requests.filter(r => r.status === "Sent");
     const inProgressRequests = requests.filter(r => r.status === "In Progress");
     const returnedRequests = requests.filter(r => r.status === "Returned");
     const canceledRequests = requests.filter(r => r.status === "Canceled");
 
-    console.log(sentRequests);
-    console.log(inProgressRequests);
-    console.log(returnedRequests);
-    console.log(canceledRequests);
-    console.log(requests);
     return (
         <div>
             <NavBar showLogOutIcon={true} showUsersIcon={true}/>
@@ -105,4 +134,6 @@ export default async function HomeEmployee() {
             </main>
         </div>
     );
-}
+};
+
+export default HomeEmployee;
