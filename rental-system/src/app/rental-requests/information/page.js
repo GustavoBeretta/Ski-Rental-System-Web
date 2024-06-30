@@ -9,13 +9,18 @@ import bcrypt from 'bcryptjs';
 export default function RentalRequestInformation() {
     const [userData, setUserData] = useState(null);// passar o object jason do usuario logado
     const [buttonText, setbuttonText] = useState("teste")
-
-
+    
     const router = useRouter();
-
+    const currentUrl = window.location.href;
+    const urlObj = new URL(currentUrl);
+    const params = new URLSearchParams(urlObj.search);
+    const id = params.get('id');
+    
+    console.log(id);
+    
     const updateUser = async (event) => {
         event.preventDefault();
-
+        
         const fullName = document.getElementById("name");
         const sport = document.getElementById("email");
         const date = document.getElementById("password");
@@ -28,25 +33,26 @@ export default function RentalRequestInformation() {
         const skis = document.getElementById("height");
         const boots = document.getElementById("height");
         const helmet = document.getElementById("height");
-
-
+        
+        
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
     }
-
+    
     const getUser = async () => {
         try {
-            const res = await fetch('http://localhost:3000/api/users/66788365fb1e9dd356a36880', {
+            const res = await fetch('http://localhost:3000/api/users/6681783561829b6d234c292d', {
                 cache: "no-store"
             });
             if (!res.ok) {
                 throw new Error("Failed to fetch the user");
             }
-            return res.json();
+            console.log(res.json());
+            await setUserData(res.json());
         } catch (error) {
             console.log("Error loading user information:", error);
         }
     }
-
+    
     const getRequest = async () => {
         try {
             const res = await fetch('http://localhost:3000/api/rental-requests/66721b808d45733413fe3d63', {
@@ -60,7 +66,7 @@ export default function RentalRequestInformation() {
             console.log("Error loading topics: ", error);
         }
     };
-
+    
     const name = document.getElementById("name");
     const sport = document.getElementById("sport");
     const date = document.getElementById("date");
@@ -73,8 +79,8 @@ export default function RentalRequestInformation() {
     const skis_board = document.getElementById("ski-board");
     const boots = document.getElementById("boots");
     const helmet = document.getElementById("helmet");
-
-
+    
+    
     const inputs = [
         { label: "Full name", name: "name", type: "text" },
         { label: "Sport", name: "sport", type: "text" },
@@ -100,9 +106,9 @@ export default function RentalRequestInformation() {
                                 </label>
                                 {input.options ? (
                                     <select
-                                        name={input.name}
-                                        id={input.name}
-                                        className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
+                                    name={input.name}
+                                    id={input.name}
+                                    className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
                                         disabled
                                     >
                                         <option value="" disabled defaultValue>Select an option</option>

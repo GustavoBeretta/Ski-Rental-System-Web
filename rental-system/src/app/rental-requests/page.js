@@ -1,5 +1,10 @@
+'use client';
+
 import RentalRequestCard from "../components/RentalRequestCard";
 import NavBar from "../components/NavBar";
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 const getRequests = async () => {
   try {
@@ -42,10 +47,10 @@ export default async function RentalRequestsPage() {
         <div className="mb-10">
           <h1 className="text-3xl">Rental Requests</h1>
         </div>
-        <div className="grid lg:grid-cols-8 gap-8 grid-cols-2 sm:gap-4">
+        <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
           {requests.map(r => (
             <RentalRequestCard
-              key={r.id}
+              _id={r._id}
               status={r.status}
               date={formatDate(r.createdAt)}
               time={formatTime(r.createdAt)}

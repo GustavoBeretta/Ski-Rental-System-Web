@@ -1,4 +1,4 @@
-const RentalRequestCard = ({status, time, date, name, sport}) => {
+const RentalRequestCardEmployee = ({status, time, date, name, sport}) => {
 
     return (
         <button className="rounded-lg bg-gray-200">
@@ -14,4 +14,4 @@ const RentalRequestCard = ({status, time, date, name, sport}) => {
     )
 }
 
-export default RentalRequestCard;
+export default RentalRequestCardEmployee;
