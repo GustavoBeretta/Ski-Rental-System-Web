@@ -68,33 +68,35 @@ const HomeEmployee = () => {
         return <p>Loading...</p>;
     }
 
-    const sentRequests = requests.filter(r => r.status === "Sent");
-    const inProgressRequests = requests.filter(r => r.status === "In Progress");
-    const returnedRequests = requests.filter(r => r.status === "Returned");
-    const canceledRequests = requests.filter(r => r.status === "Canceled");
+    const sentRequests = requests.filter(r => r.status === "sent");
+    const inProgressRequests = requests.filter(r => r.status === "in-progress");
+    const returnedRequests = requests.filter(r => r.status === "returned");
+    const canceledRequests = requests.filter(r => r.status === "canceled");
+
+
 
     return (
-        <div>
-            <NavBar showLogOutIcon={true} showUsersIcon={true}/>
-            <main className="mt-10 flex flex-col items-center justify-between">
+        <div >
+            <NavBar showLogOutIcon={true} showUsersIcon={true} />
+            <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Requests</h1>
                 </div>
-                <div className="grid lg:grid-cols-4 gap-4 grid-cols-2 sm:gap-4">
-                    <div>
+                <div className="grid lg:grid-cols-4 grid-cols-2 gap-6 pl-20 pr-6 lg:w-full">
+                    <div className="flex flex-col items-center justify-center">
                         <h2 className="text-center text-xl">Sent</h2>
-                        
                         {sentRequests.map(r => (
                             <RentalRequestCardEmployee
                                 key={r.id}
+                                user={r.name}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                name={r.name}
+                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">In Progress</h2>
                         {inProgressRequests.map(r => (
                             <RentalRequestCardEmployee
@@ -106,7 +108,7 @@ const HomeEmployee = () => {
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Returned</h2>
                         {returnedRequests.map(r => (
                             <RentalRequestCardEmployee
@@ -118,7 +120,7 @@ const HomeEmployee = () => {
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center ">
                         <h2 className="text-center text-xl">Canceled</h2>
                         {canceledRequests.map(r => (
                             <RentalRequestCardEmployee
