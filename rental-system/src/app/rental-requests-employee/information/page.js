@@ -142,7 +142,9 @@ export default function RentalRequestInformation() {
             <section className="flex flex-col items-center justify-center snap-none">
                 <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Request Information</h1>
-                    <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={topButtonHandler}></button>
+                    <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={topButtonHandler}>
+                        <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Log Out Icon" />
+                    </button>
                 </div>
                 <div className="flex items-center content-center flex-col lg:w-6/12 ">
                     <form className="w-full rounded-lg space-y-4 sm:p-8">
