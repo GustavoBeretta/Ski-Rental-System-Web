@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
-import { set } from 'mongoose';
 
 const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
     ssr: false
@@ -92,10 +91,10 @@ const HomeEmployee = () => {
             <NavBar showLogOutIcon={true} showUsersIcon={true} />
             <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
-                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase">Rental Requests</h1>
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase text-center">Rental Requests</h1>
                 </div>
-                <div className="grid lg:grid-cols-4 grid-cols-2 gap-6 pl-20 pr-6 lg:w-full">
-                    <div className="flex flex-col items-center justify-center">
+                <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 p-4">
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Sent</h2>
                         {sentRequests.map(r => (
                             <RentalRequestCardEmployee

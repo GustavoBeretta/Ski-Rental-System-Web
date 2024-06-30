@@ -214,24 +214,31 @@ export default function RentalRequestInformation() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="flex justify-center">
                             {showButton === "sent" ? (
                                 <>
-                                    <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleCancel}>
+                                    <button
+                                        type="submit"
+                                        className="bg-[#4094A5] hover:bg-[#81C9D8] text-center text-white text-sm font-semibold md:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
+                                        onClick={handleCancel}>
                                         {buttonText}
                                     </button>
-                                    <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleInProgress}>
+                                    <button
+                                        type="submit"
+                                        className="bg-[#4094A5] hover:bg-[#81C9D8] text-white text-center font-semibold text-sm sm:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
+                                        onClick={handleInProgress}>
                                         {buttonText2}
                                     </button>
                                 </>
                             ) : showButton === "in-progress" ? (
-                                <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleReturn}>
+                                <button
+                                    type="submit"
+                                    className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-center text-sm sm:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
+                                    onClick={handleReturn}>
                                     {buttonText}
                                 </button>
                             ) : null}
                         </div>
-
                     </form>
                 </div>
             </section>
