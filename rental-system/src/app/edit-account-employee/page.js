@@ -119,10 +119,10 @@ export default function EditAccount() {
     };
 
     const handleCheckboxChange = (event) => {
-        const { name, checked } = event.target;
+        const { checked } = event.target;
         setUserData((prevState) => ({
             ...prevState,
-            [name]: checked ? 'employee' : '',
+            'role': checked ? 'employee' : 'guest',
         }));
     };
 
