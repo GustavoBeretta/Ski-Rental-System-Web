@@ -1,17 +1,17 @@
-const RentalRequestCard = ({status, time, date, name, sport}) => {
+const RentalRequestCardEmployee = ({user, status, time, date, sport}) => {
 
     return (
-        <button className="rounded-lg bg-gray-200">
+        <button className="rounded-lg bg-gray-200 m-2">
             <div className="bg-sky-200 rounded-lg p-2">
-                <p>{date} as {time}</p>
+                <p>{date} at {time}</p>
             </div>
             <div className="p-2 text-left">
+                <p>{user}</p>
                 <p>{status}</p>
-                <p>{name}</p>
                 <p>{sport}</p>
             </div>
         </button>
     )
 }
 
-export default RentalRequestCard;
+export default RentalRequestCardEmployee;
