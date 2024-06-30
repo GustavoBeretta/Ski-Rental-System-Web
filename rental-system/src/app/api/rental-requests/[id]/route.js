@@ -4,9 +4,9 @@ import RentalRequest from "../../../../../models/rental_request";
 
 export async function PUT(request, {params}) {
     const {id} = params;
-    const { newUserId: userId, newSport: sport, newStatus: status, newSki_Board: ski_board, newBoots: boots, newHelmet: helmet } = await request.json()
+    const { newUserId: userId, newNameUser: nameUser, newGender: gender, newShoeSize: shoeSize, newAge: age, newWeight: weight, newHeight: height, newSport: sport, newStatus: status, newSki_Board: ski_board, newBoots: boots, newHelmet: helmet } = await request.json()
     await connectMongoDB();
-    await RentalRequest.findByIdAndUpdate(id, { userId, sport, status, ski_board, boots, helmet });
+    await RentalRequest.findByIdAndUpdate(id, { userId, nameUser, gender, shoeSize, age, weight, height, sport, status, ski_board, boots, helmet });
     return NextResponse.json({message: "Rental request updated"}, {status: 200});
 }
 
