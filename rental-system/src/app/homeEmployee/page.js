@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import dynamic from 'next/dynamic'; // Importação dinâmica para componentes que precisam de hooks do cliente
+import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
+import { set } from 'mongoose';
 
 const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
-  ssr: false // Desabilita renderização do lado do servidor para esse componente
+    ssr: false
 });
 
 const getRequests = async () => {
@@ -40,6 +41,19 @@ const formatTime = (timestamp) => {
     return `${hours}:${minutes}:${seconds}`;
 }
 
+const abbreviateName = (fullName) => {
+    if (!fullName) return '';
+
+    const nameParts = fullName.split(' ');
+    if (nameParts.length === 1) return fullName;
+
+    const firstName = nameParts[0];
+    const lastName = nameParts[nameParts.length - 1];
+    const middleNames = nameParts.slice(1, -1).map(name => name.charAt(0) + '.').join(' ');
+
+    return `${firstName} ${middleNames} ${lastName}`;
+}
+
 const HomeEmployee = () => {
     const { data: session, status } = useSession();
     const [requests, setRequests] = useState([]);
@@ -58,7 +72,7 @@ const HomeEmployee = () => {
         };
 
         if (status === 'authenticated' && session?.user?.role === 'guest') {
-            window.location.href = '/home'; // Redireciona para a página inicial em vez de usar router.push
+            window.location.href = '/home';
         } else {
             fetchData();
         }
@@ -73,25 +87,23 @@ const HomeEmployee = () => {
     const returnedRequests = requests.filter(r => r.status === "returned");
     const canceledRequests = requests.filter(r => r.status === "canceled");
 
-
-
     return (
-        <div >
+        <div>
             <NavBar showLogOutIcon={true} showUsersIcon={true} />
             <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
-                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Requests</h1>
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase">Rental Requests</h1>
                 </div>
                 <div className="grid lg:grid-cols-4 grid-cols-2 gap-6 pl-20 pr-6 lg:w-full">
                     <div className="flex flex-col items-center justify-center">
                         <h2 className="text-center text-xl">Sent</h2>
                         {sentRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
-                                user={r.name}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
@@ -100,10 +112,11 @@ const HomeEmployee = () => {
                         <h2 className="text-center text-xl">In Progress</h2>
                         {inProgressRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
@@ -112,22 +125,24 @@ const HomeEmployee = () => {
                         <h2 className="text-center text-xl">Returned</h2>
                         {returnedRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
                     </div>
-                    <div className="flex flex-col items-center ">
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Canceled</h2>
                         {canceledRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}

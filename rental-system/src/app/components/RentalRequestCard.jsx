@@ -2,7 +2,6 @@
 import { useRouter } from 'next/navigation';
 
 const RentalRequestCard = ({ status, sport, time, date, _id }) => {
-// necessario passar o name no primeiro <p>
 
     const router = useRouter();
     const handleCardClick = () => {
