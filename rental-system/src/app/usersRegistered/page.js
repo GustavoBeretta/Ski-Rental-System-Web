@@ -67,7 +67,7 @@ const UsersRegistered = () => {
       <NavBar showEmployeeHomeIcon={true}/>
       <main className="flex flex-col items-center justify-between lg:mt-20 p-4">
         <div className="mb-20 mt-0">
-          <h1 className="text-5xl text-[#8F8E8E]">Users Registered</h1>
+          <h1 className="text-5xl text-[#8F8E8E] text-center">Users Registered</h1>
         </div>
         <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
           {users.map(r => (

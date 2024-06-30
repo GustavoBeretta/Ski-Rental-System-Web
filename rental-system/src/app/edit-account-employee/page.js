@@ -126,6 +126,32 @@ export default function EditAccount() {
         }));
     };
 
+    const topButtonHandler = () => {
+        router.push('/usersRegistered');
+    }
+    const trashButtonHandler = async () => {
+        const confirmed = window.confirm("Você tem certeza que deseja deletar?");
+        if (confirmed) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+                    cache: "no-store",
+                    method: "DELETE",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                if (!res.ok) {
+                    throw new Error("Failed to DELETE user information");
+                }
+                window.alert("User information deleted successfully");
+                router.push('/usersRegistered');
+
+            } catch (error) {
+                console.log("Error deleting user information:", error);
+            }
+        }
+    }
+
     const inputs = [
         { label: "FULL NAME:", name: "name", type: "text" },
         { label: "EMAIL:", name: "email", type: "email" },
@@ -141,10 +167,17 @@ export default function EditAccount() {
 
     return (
         <div>
-            <NavBar showEmployeeHomeIcon={true}/>
+            <NavBar showEmployeeHomeIcon={true} />
             <main className="mt-10">
                 <section className="flex flex-col items-center justify-center snap-none">
-                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit User Information</h1>
+                    <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
+                        <button class="hidden lg:block mr-4 items-center justify-center w-10 h-10 text-teal-600 bg-white border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={trashButtonHandler}></button>
+                        <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Edit User Information</h1>
+                        <div className='flex mt-4 mb-4'>
+                            <button class="md:hidden flex mr-4 items-center justify-center w-10 h-10 text-teal-600 bg-white border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={trashButtonHandler}></button>
+                            <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={topButtonHandler}></button>
+                        </div>
+                    </div>
                     <div className="flex items-center content-center flex-col lg:w-6/12 ">
                         <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={updateUser}>
                             {inputs.map((input) => (
