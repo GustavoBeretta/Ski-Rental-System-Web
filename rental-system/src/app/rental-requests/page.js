@@ -14,9 +14,11 @@ const getRequests = async () => {
     if (!res.ok) {
       throw new Error("Failed to fetch the rental requests");
     }
-    return res.json();
+    const data = await res.json();
+    return Array.isArray(data.requests) ? data.requests : [];
   } catch (error) {
-    console.log("Error loading topics: ", error);
+    console.log("Error loading rental requests: ", error);
+    return [];
   }
 };
 
@@ -28,7 +30,6 @@ const formatDate = (timestamp) => {
   return `${day}/${month}/${year}`;
 }
 
-
 const formatTime = (timestamp) => {
   const date = new Date(timestamp);
   const hours = String(date.getHours()).padStart(2, '0');
@@ -37,8 +38,26 @@ const formatTime = (timestamp) => {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-export default async function RentalRequestsPage() {
-  const { requests } = await getRequests();
+export default function RentalRequestsPage() {
+  const { data: session, status } = useSession();
+  const [requests, setRequests] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (!session) {
+      router.push("/auth/signin");
+      return;
+    }
+
+    const fetchRequests = async () => {
+      const data = await getRequests();
+      const userRequests = data.filter(request => request.userId === session.user._id);
+      setRequests(userRequests);
+    };
+
+    fetchRequests();
+  }, [session, status, router]);
 
   return (
     <div>
@@ -48,14 +67,19 @@ export default async function RentalRequestsPage() {
           <h1 className="text-3xl">Rental Requests</h1>
         </div>
         <div className="grid lg:grid-cols-5 gap-5 grid-cols-2 sm:gap-4">
-          {requests.map(r => (
-            <RentalRequestCard
-              _id={r._id}
-              status={r.status}
-              date={formatDate(r.createdAt)}
-              time={formatTime(r.createdAt)}
-            />
-          ))}
+          {requests.length > 0 ? (
+            requests.map(r => (
+              <RentalRequestCard
+                key={r._id}
+                _id={r._id}
+                status={r.status}
+                date={formatDate(r.createdAt)}
+                time={formatTime(r.createdAt)}
+              />
+            ))
+          ) : (
+            <p>No rental requests found.</p>
+          )}
         </div>
       </main>
     </div>
