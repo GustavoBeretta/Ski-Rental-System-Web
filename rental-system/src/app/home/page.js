@@ -27,6 +27,12 @@ export default function Home() {
     event.preventDefault();
 
     const userId = userData._id;
+    const userName = userData.name;
+    const gender = userData.gender
+    const shoeSize = userData.shoeSize;
+    const age = userData.age;
+    const weight = userData.weight;
+    const height = userData.height;
     const sport = document.getElementById('sport').value;
     const ski_board = document.getElementById('ski-board').checked;
     const boots = document.getElementById('boots').checked;
@@ -39,6 +45,12 @@ export default function Home() {
 
     const rentalRequest = {
       userId: userId,
+      nameUser: userName,
+      gender: gender,
+      shoeSize: shoeSize,
+      age: age,
+      weight: weight,
+      height: height,
       sport: sport,
       status: 'send',
       ski_board: ski_board,

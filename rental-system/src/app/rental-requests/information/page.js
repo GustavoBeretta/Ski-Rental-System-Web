@@ -1,13 +1,10 @@
 'use client';
 
-//TERMINAR A IMPLEMENTAÇÃO DO EDIT ACCOUNT/ FALTA AINDA A IMPLEMENTAÇÃO DO REQ DO USUARIO QUE ESTA LOGADO PARA PEGAR OS DADOS DELE E MOSTRAR NO FORMULARIO
-
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import bcrypt from 'bcryptjs';
 
 export default function RentalRequestInformation() {
-    const [userData, setUserData] = useState(null);// passar o object jason do usuario logado
+    const [userData, setUserData] = useState(null);
     const [buttonText, setbuttonText] = useState("teste")
     
     const router = useRouter();
@@ -16,56 +13,25 @@ export default function RentalRequestInformation() {
     const params = new URLSearchParams(urlObj.search);
     const id = params.get('id');
     
-    console.log(id);
-    
-    const updateUser = async (event) => {
-        event.preventDefault();
-        
-        const fullName = document.getElementById("name");
-        const sport = document.getElementById("email");
-        const date = document.getElementById("password");
-        const time = document.getElementById("newPassword");
-        const status = document.getElementById("newPasswordConfirmation");
-        const gender = document.getElementById("gender");
-        const shoeSize = document.getElementById("shoeSize");
-        const age = document.getElementById("age");
-        const weight = document.getElementById("weight");
-        const skis = document.getElementById("height");
-        const boots = document.getElementById("height");
-        const helmet = document.getElementById("height");
-        
-        
-        const dadosCadastroJson = JSON.stringify(dadosCadastro);
-    }
-    
-    const getUser = async () => {
-        try {
-            const res = await fetch('http://localhost:3000/api/users/6681783561829b6d234c292d', {
-                cache: "no-store"
-            });
-            if (!res.ok) {
-                throw new Error("Failed to fetch the user");
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const res = await fetch(`http://localhost:3000/api/rental-requests/${id}`, {
+                    cache: "no-store"
+                });
+                if (!res.ok) {
+                    throw new Error("Failed to fetch the rental request");
+                }
+                const data = await res.json();
+                console.log(data.rentalRequest);
+                setUserData(data.rentalRequest);
+            } catch (error) {
+                console.log("Error loading user data: ", error);
             }
-            console.log(res.json());
-            await setUserData(res.json());
-        } catch (error) {
-            console.log("Error loading user information:", error);
-        }
-    }
-    
-    const getRequest = async () => {
-        try {
-            const res = await fetch('http://localhost:3000/api/rental-requests/66721b808d45733413fe3d63', {
-                cache: "no-store"
-            });
-            if (!res.ok) {
-                throw new Error("Failed to fetch the rental requests");
-            }
-            return res.json();
-        } catch (error) {
-            console.log("Error loading topics: ", error);
-        }
-    };
+        };
+
+        fetchUserData();
+    }, []);
     
     const name = document.getElementById("name");
     const sport = document.getElementById("sport");
