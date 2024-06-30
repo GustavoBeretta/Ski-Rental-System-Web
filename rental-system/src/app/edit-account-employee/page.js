@@ -171,11 +171,17 @@ export default function EditAccount() {
             <main className="mt-10">
                 <section className="flex flex-col items-center justify-center snap-none">
                     <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
-                        <button class="hidden lg:block mr-4 items-center justify-center w-10 h-10 text-teal-600 bg-white border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={trashButtonHandler}></button>
+                    <button class="hidden lg:block mr-4 items-center justify-center w-10 h-10 text-teal-600 border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={trashButtonHandler}>
+                        <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Log Out Icon" />
+                    </button>
                         <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Edit User Information</h1>
                         <div className='flex mt-4 mb-4'>
-                            <button class="md:hidden flex mr-4 items-center justify-center w-10 h-10 text-teal-600 bg-white border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={trashButtonHandler}></button>
-                            <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={topButtonHandler}></button>
+                            <button class="md:hidden flex mr-4 items-center justify-center w-10 h-10 text-teal-600  border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={trashButtonHandler}>
+                            <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Log Out Icon" />
+                            </button>
+                            <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={topButtonHandler}>
+                                <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Log Out Icon" />
+                            </button>
                         </div>
                     </div>
                     <div className="flex items-center content-center flex-col lg:w-6/12 ">
