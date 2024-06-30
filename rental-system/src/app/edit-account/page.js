@@ -51,7 +51,7 @@ export default function EditAccount() {
             return;
         }
 
-        const hashPassword = await bcrypt.hash(formData.newPassword, 10);
+        const hashPassword = formData.newPassword ? await bcrypt.hash(formData.newPassword, 10) : userData.password;
 
         const dadosCadastro = {
             newName: formData.fullName,
@@ -131,7 +131,7 @@ export default function EditAccount() {
                                             value={formData[input.name]}
                                             onChange={handleChange}
                                             className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                            required
+                                            required={!(input.name === 'newPassword' || input.name === 'newPasswordConfirmation')}
                                         >
                                             <option value="" disabled defaultValue>Select an option</option>
                                             {input.options.map((option) => (
@@ -146,7 +146,7 @@ export default function EditAccount() {
                                             value={formData[input.name]}
                                             onChange={handleChange}
                                             className="bg-[#ECECEC] border-gray-300 text-gray-900 rounded-lg block w-full p-2.5"
-                                            required
+                                            required={!(input.name === 'newPassword' || input.name === 'newPasswordConfirmation')}
                                         />
                                     )}
                                 </div>
