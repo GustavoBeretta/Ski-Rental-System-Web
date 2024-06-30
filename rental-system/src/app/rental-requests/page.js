@@ -75,6 +75,7 @@ export default function RentalRequestsPage() {
                 status={r.status}
                 date={formatDate(r.createdAt)}
                 time={formatTime(r.createdAt)}
+                sport = {r.sport}
               />
             ))
           ) : (
