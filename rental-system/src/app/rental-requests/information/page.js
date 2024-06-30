@@ -27,7 +27,6 @@ export default function RentalRequestInformation() {
                     throw new Error("Failed to fetch the rental request");
                 }
                 const data = await res.json();
-                console.log(data.rentalRequest);
                 setRentalRequestData(data.rentalRequest);
             } catch (error) {
                 console.log("Error loading user data: ", error);
@@ -52,6 +51,52 @@ export default function RentalRequestInformation() {
         return `${hours}:${minutes}`;
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const confirmCancel = window.confirm("Are you sure you want to cancel this rental request?");
+        if (!confirmCancel) {
+            return;
+        }
+
+        const rentalRequestDataCanceled = {...rentalRequestData, status: 'canceled'};
+        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataCanceled;
+        const rentalRequestNewData = {
+            newUserId: cleanedData.userId,
+            newNameUser: cleanedData.nameUser,
+            newGender: cleanedData.gender,
+            newShoeSize: cleanedData.shoeSize,
+            newAge: cleanedData.age,
+            newWeight: cleanedData.weight,
+            newHeight: cleanedData.height,
+            newSport: cleanedData.sport,
+            newStatus: cleanedData.status,
+            newSki_Board: cleanedData.ski_board,
+            newBoots: cleanedData.boots,
+            newHelmet: cleanedData.helmet
+        }
+        const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
+        try {
+            const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
+                cache: "no-store",
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: rentalRequestDataJson
+            });
+            if (!res.ok) {
+                throw new Error("Failed to cancel the rental request");
+            }
+            setButtonText("Canceled");
+            document.getElementById("submit").disabled = true;
+        } catch (error) {
+            console.log("Error canceling the rental request: ", error);
+        }
+
+        router.push('/rental-requests');
+    }
+
     const inputs = [
         { label: "Full Name", name: "nameUser", type: "text" },
         { label: "Sport", name: "sport", type: "text" },
@@ -72,7 +117,7 @@ export default function RentalRequestInformation() {
                     <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75" onClick={topButtonHandler}></button>
                 </div>
                 <div className="flex items-center content-center flex-col lg:w-6/12 ">
-                    <form className="w-full rounded-lg space-y-4 sm:p-8">
+                    <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={handleSubmit}>
                         {inputs.map((input) => (
                             <div key={input.name}>
                                 <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
@@ -143,7 +188,7 @@ export default function RentalRequestInformation() {
                         </div>
 
                         <div className="flex justify-center">
-                            <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">{buttonText}</button>
+                            <button id="submit" type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">{buttonText}</button>
                         </div>
                     </form>
                 </div>
