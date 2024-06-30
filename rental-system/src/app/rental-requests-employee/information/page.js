@@ -37,6 +37,67 @@ export default function RentalRequestInformation() {
         fetchRentalRequestData();
     }, []);
 
+    const changeStatus = async (newStatus) => {
+        const confirmCancel = window.confirm("Are you sure you want to cancel this rental request?");
+        if (!confirmCancel) {
+            return;
+        }
+
+        const rentalRequestDataNewStatus = {...rentalRequestData, status: newStatus};
+        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
+        const rentalRequestNewData = {
+            newUserId: cleanedData.userId,
+            newNameUser: cleanedData.nameUser,
+            newGender: cleanedData.gender,
+            newShoeSize: cleanedData.shoeSize,
+            newAge: cleanedData.age,
+            newWeight: cleanedData.weight,
+            newHeight: cleanedData.height,
+            newSport: cleanedData.sport,
+            newStatus: cleanedData.status,
+            newSki_Board: cleanedData.ski_board,
+            newBoots: cleanedData.boots,
+            newHelmet: cleanedData.helmet
+        }
+        const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
+        try {
+            const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
+                cache: "no-store",
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: rentalRequestDataJson
+            });
+            if (!res.ok) {
+                throw new Error("Failed to change the rental request status");
+            }
+        } catch (error) {
+            console.log("Error changing the rental request status: ", error);
+        }
+    }
+
+    const handleCancel = async (event) => {
+        event.preventDefault();
+        changeStatus("canceled");
+        setButtonText('canceled');
+        router.push('/homeEmployee');
+    }
+
+    const handleInProgress = async (event) => {
+        event.preventDefault();
+        changeStatus("in-progress");
+        setButtonText('in-progress');
+        router.push('/homeEmployee');
+    }
+
+    const handleReturn = async (event) => {
+        event.preventDefault();
+        changeStatus("returned");
+        setButtonText('returned');
+        router.push('/homeEmployee');
+    }
+
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const day = String(date.getDate()).padStart(2, '0');
