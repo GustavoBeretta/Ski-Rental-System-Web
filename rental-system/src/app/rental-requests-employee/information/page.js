@@ -5,7 +5,9 @@ import React, { useEffect, useState } from 'react';
 
 export default function RentalRequestInformation() {
     const [rentalRequestData, setRentalRequestData] = useState(null);
+    const [showButton, setShowButton] = useState(false);
     const [buttonText, setButtonText] = useState("Cancel");
+    const [buttonText2, setButtonText2] = useState("Cancel");
 
     const router = useRouter();
     const currentUrl = window.location.href;
@@ -27,7 +29,17 @@ export default function RentalRequestInformation() {
                     throw new Error("Failed to fetch the rental request");
                 }
                 const data = await res.json();
-                console.log(data.rentalRequest);
+                if (data.rentalRequest.status === "sent") {
+                    setShowButton("sent");
+                    setButtonText("Cancel");
+                    setButtonText2("In Progress");
+                } else if (data.rentalRequest.status === "in-progress") {
+                    setShowButton("in-progress");
+                    setButtonText("Return");
+                } else if (data.rentalRequest.status === "returned") {
+                    setShowButton("returned");
+                    setButtonText("Returned");
+                }
                 setRentalRequestData(data.rentalRequest);
             } catch (error) {
                 console.log("Error loading user data: ", error);
@@ -38,12 +50,12 @@ export default function RentalRequestInformation() {
     }, []);
 
     const changeStatus = async (newStatus) => {
-        const confirmCancel = window.confirm("Are you sure you want to cancel this rental request?");
+        const confirmCancel = window.confirm(`Are you sure you want to change the status to ${newStatus}?`);
         if (!confirmCancel) {
             return;
         }
 
-        const rentalRequestDataNewStatus = {...rentalRequestData, status: newStatus};
+        const rentalRequestDataNewStatus = { ...rentalRequestData, status: newStatus };
         const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
         const rentalRequestNewData = {
             newUserId: cleanedData.userId,
@@ -204,8 +216,22 @@ export default function RentalRequestInformation() {
                         </div>
 
                         <div className="flex justify-center">
-                            <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">{buttonText}</button>
+                            {showButton === "sent" ? (
+                                <>
+                                    <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleCancel}>
+                                        {buttonText}
+                                    </button>
+                                    <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleInProgress}>
+                                        {buttonText2}
+                                    </button>
+                                </>
+                            ) : showButton === "in-progress" ? (
+                                <button type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4" onClick={handleReturn}>
+                                    {buttonText}
+                                </button>
+                            ) : null}
                         </div>
+
                     </form>
                 </div>
             </section>
