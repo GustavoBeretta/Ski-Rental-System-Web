@@ -144,7 +144,7 @@ export default function EditAccount() {
             <NavBar showEmployeeHomeIcon={true}/>
             <main className="mt-10">
                 <section className="flex flex-col items-center justify-center snap-none">
-                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit Account Information</h1>
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] pt-6">Edit User Information</h1>
                     <div className="flex items-center content-center flex-col lg:w-6/12 ">
                         <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={updateUser}>
                             {inputs.map((input) => (
