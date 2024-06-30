@@ -34,33 +34,26 @@ const formatTime = (timestamp) => {
 export default async function HomeEmployee() {
     const { requests } = await getRequests();
 
-    const sentRequests = requests.filter(r => r.status === "Sent");
-    const inProgressRequests = requests.filter(r => r.status === "In Progress");
-    const returnedRequests = requests.filter(r => r.status === "Returned");
-    const canceledRequests = requests.filter(r => r.status === "Canceled");
-
-    console.log(sentRequests);
-    console.log(inProgressRequests);
-    console.log(returnedRequests);
-    console.log(canceledRequests);
-    console.log(requests);
+    const sentRequests = requests.filter(r => r.status === "sent");
+    const inProgressRequests = requests.filter(r => r.status === "in-progress");
+    const returnedRequests = requests.filter(r => r.status === "returned");
+    const canceledRequests = requests.filter(r => r.status === "canceled");
     return (
-        <div>
+        <div >
             <NavBar showLogOutIcon={true} showUsersIcon={true}/>
             <main className="mt-10 flex flex-col items-center justify-between">
                 <div className="mb-10">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Requests</h1>
                 </div>
-                <div className="grid lg:grid-cols-4 gap-4 grid-cols-2 sm:gap-4">
-                    <div>
+                <div className="grid lg:grid-cols-4 grid-cols-2 gap-4">
+                    <div >
                         <h2 className="text-center text-xl">Sent</h2>
-                        
                         {sentRequests.map(r => (
                             <RentalRequestCardEmployee
                                 key={r.id}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                name={r.name}
+                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
