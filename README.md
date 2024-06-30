@@ -2,10 +2,10 @@
 
 ## Membros:
 
-* Andres Kindel Barbosa
+* Andres Kindel Barbosa - 23100757
 * Gustavo Beretta Gonçalves
-* Josef Konrad Holanda Bruseke
-* Luiz Adriano Augusto dos Santos
+* Josef Konrad Holanda Bruseke - 23102481
+* Luiz Adriano Augusto dos Santos - 23102478
 
 ---
 
@@ -24,6 +24,12 @@ A função básica do sistema será permitir que o cliente submeta pedidos de al
 O cadastro de novos usuários poderá ser realizado de forma autônoma, mas, para ser cadastrado como funcionário, outro funcionário deve validar esse novo cadastro.
 
 ---
+
+## Links:
+
+Repositório: https://github.com/GustavoBeretta/Trabalho-Web/tree/main
+
+Aplicação:
 
 ## Requisitos da aplicação _Web_:
 
