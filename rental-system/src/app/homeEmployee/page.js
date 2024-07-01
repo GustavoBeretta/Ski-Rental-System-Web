@@ -6,9 +6,7 @@ import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
 import { useRouter } from 'next/router';
 
-
-
-const HomeEmployee = () => {
+export default function HomeEmployee() {
     const getRequests = async () => {
         try {
             const res = await fetch('http://localhost:3000/api/rental-requests', {
@@ -155,4 +153,3 @@ const HomeEmployee = () => {
     );
 };
 
-export default HomeEmployee;
