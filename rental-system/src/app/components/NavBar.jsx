@@ -52,7 +52,6 @@ const NavBar = ({ showGuestHomeIcon, showEmployeeHomeIcon, showLogOutIcon, showU
                     </div>
                 </div>
         </nav>
-
     );
 }
 
