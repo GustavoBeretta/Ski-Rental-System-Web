@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { getSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
@@ -14,6 +15,17 @@ export default function EditAccount() {
     const urlObj = new URL(currentUrl);
     const params = new URLSearchParams(urlObj.search);
     const id = params.get('id');
+
+    useEffect(() => {
+        async function checkAccess() {
+            const session = await getSession();
+            if (!session || session.user.role !== 'employee') {
+                // Redirect user to /home if not authenticated or role is not employee
+                router.push('/home');
+            }
+        }
+        checkAccess();
+    }, []);
 
     function getHashPassword(senha) {
         return bcrypt.hash(senha, 10);
@@ -172,15 +184,15 @@ export default function EditAccount() {
                 <section className="flex flex-col items-center justify-center snap-none">
                     <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
                     <button class="hidden lg:block mr-4 items-center justify-center w-10 h-10 text-teal-600 border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={trashButtonHandler}>
-                        <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Log Out Icon" />
+                        <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Lixeira Icon" />
                     </button>
                         <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Edit User Information</h1>
                         <div className='flex mt-4 mb-4'>
                             <button class="md:hidden flex mr-4 items-center justify-center w-10 h-10 text-teal-600  border border-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={trashButtonHandler}>
-                            <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Log Out Icon" />
+                            <img className="w-full h-full rounded-full object-cover" src="/lata-de-lixo.png" alt="Lixeira Icon" />
                             </button>
                             <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={topButtonHandler}>
-                                <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Log Out Icon" />
+                                <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Voltar Icon" />
                             </button>
                         </div>
                     </div>
