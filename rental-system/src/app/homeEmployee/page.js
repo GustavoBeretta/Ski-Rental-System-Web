@@ -6,20 +6,7 @@ import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
 import { useRouter } from 'next/router';
 
-const getRequests = async () => {
-    try {
-        const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
-            cache: "no-store"
-        });
-        if (!res.ok) {
-            throw new Error("Failed to fetch the rental requests");
-        }
-        return res.json();
-    } catch (error) {
-        console.error("Error loading rental requests: ", error);
-        throw error;
-    }
-};
+
 
 const formatDate = (timestamp) => {
     const date = new Date(timestamp);
