@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.21",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sweetalert2": "^11.12.1",
+    "vercel": "^34.2.8"
   },
   "devDependencies": {
     "postcss": "^8",
