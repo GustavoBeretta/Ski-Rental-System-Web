@@ -85,7 +85,7 @@ const HomeEmployee = () => {
     const inProgressRequests = requests.filter(r => r.status === "in-progress");
     const returnedRequests = requests.filter(r => r.status === "returned");
     const canceledRequests = requests.filter(r => r.status === "canceled");
-
+    
     return (
         <div>
             <NavBar showLogOutIcon={true} showUsersIcon={true} />
@@ -101,6 +101,9 @@ const HomeEmployee = () => {
                                 key={r._id}
                                 _id={r._id}
                                 name={abbreviateName(r.nameUser)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
                                 sport={r.sport}
