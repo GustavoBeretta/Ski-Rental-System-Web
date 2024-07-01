@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 
 export default function Cadastro() {
   async function checkIfEmailIsRegistered(email) {
-    const response = await fetch("http://localhost:3000/api/users");
+    const response = await fetch("https://rental-request-app.vercel.app/api/users");
     const usuarios = await response.json();
     const check = await usuarios.users.some((usuario) => usuario.email === email);
     return check;

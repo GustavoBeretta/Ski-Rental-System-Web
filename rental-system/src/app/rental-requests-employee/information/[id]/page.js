@@ -32,7 +32,7 @@ export default function RentalRequestInformation({params}) {
     useEffect(() => {
         const fetchRentalRequestData = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/rental-requests/${id}`, {
+                const res = await fetch(`https://rental-request-app.vercel.app/api/rental-requests/${id}`, {
                     cache: "no-store"
                 });
                 if (!res.ok) {
@@ -72,7 +72,7 @@ export default function RentalRequestInformation({params}) {
           }).then( async (result) => {
             if  (result.isConfirmed) { 
                 try {
-                    const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
+                    const res = await fetch(`https://rental-request-app.vercel.app/api/rental-requests/${rentalRequestData._id}`, {
                         cache: "no-store",
                         method: "PUT",
                         headers: {

@@ -69,7 +69,7 @@ export default function EditAccount() {
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${userData._id}`, {
+            const res = await fetch(`https://rental-request-app.vercel.app/api/users/${userData._id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {

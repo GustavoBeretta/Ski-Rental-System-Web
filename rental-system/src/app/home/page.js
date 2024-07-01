@@ -60,7 +60,7 @@ export default function Home() {
 
     const rentalRequestJSON = JSON.stringify(rentalRequest);
     try {
-      const res = await fetch('http://localhost:3000/api/rental-requests', {
+      const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
         cache: "no-store",
         method: "POST",
         headers: {

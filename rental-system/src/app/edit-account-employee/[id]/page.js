@@ -30,7 +30,7 @@ export default function EditAccount({params}) {
 
     async function getUserID() {
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+            const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                 cache: "no-store"
             });
             if (!res.ok) {
@@ -100,7 +100,7 @@ export default function EditAccount({params}) {
 
 
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+            const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {
@@ -154,7 +154,7 @@ export default function EditAccount({params}) {
           }).then( async (result) => {
             if  (result.isConfirmed) { 
                     try {
-                        const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+                        const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                             cache: "no-store",
                             method: "DELETE",
                             headers: {
