@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-const RentalRequestCard = ({ status, sport, time, date, _id }) => {
+const RentalRequestCard = ({ status, time, date, sport, _id, boots, helmet, skiBoard}) => {
 
     const router = useRouter();
     const handleCardClick = () => {
@@ -17,6 +17,10 @@ const RentalRequestCard = ({ status, sport, time, date, _id }) => {
             <div className="p-2 text-left ">
                 <p>{sport}</p>
                 <p>{status}</p>
+                <p>Sport: {sport}</p>
+                <p>Boots: {boots ? 'Yes' : 'No'}</p>
+                <p>Helmet: {helmet ? 'Yes' : 'No'}</p>
+                <p>Skiboard: {skiBoard ? 'Yes' : 'No'}</p>               
             </div>
         </button>
     );

@@ -75,6 +75,9 @@ export default function RentalRequestsPage() {
                 status={r.status}
                 date={formatDate(r.createdAt)}
                 time={formatTime(r.createdAt)}
+                boots={r.boots}
+                helmet={r.helmet}
+                skiBoard={r.skiBoard} 
                 sport = {r.sport}
               />
             ))
