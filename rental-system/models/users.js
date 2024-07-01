@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 
+// Define o esquema para a coleção "users"
 const usersSchema = new Schema(
     {
         name: String,

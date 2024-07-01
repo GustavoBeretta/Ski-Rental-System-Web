@@ -8,9 +8,12 @@ import Swal from 'sweetalert2';
 
 export default function Home() {
   const router = useRouter();
+  //pega os dados do usuário logado
   const [userData, setUserData] = useState(null);
+  // pega os dados da sessão
   const { data: session, status } = useSession();
 
+  //configura os dados do usuário de acordo com a sessão
   useEffect(() => {
     if (session && session.user) {
       const user = session.user;
@@ -18,6 +21,7 @@ export default function Home() {
     }
   }, [session]);
 
+  //configura botões de redirecionamento para outras páginas
   const handleClickEditAccount = () => {
     router.push('/edit-account');
   }
@@ -27,6 +31,7 @@ export default function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //dados para criar rental request
     const userId = userData._id;
     const userName = userData.name;
     const gender = userData.gender
@@ -44,6 +49,7 @@ export default function Home() {
       return;
     }
 
+    //objeto para criar rental request
     const rentalRequest = {
       userId: userId,
       nameUser: userName,
@@ -59,6 +65,7 @@ export default function Home() {
       helmet: helmet
     };
 
+    //requisição para criar rental request
     const rentalRequestJSON = JSON.stringify(rentalRequest);
     try {
       const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {

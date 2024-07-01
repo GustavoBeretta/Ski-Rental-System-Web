@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 
+// Define o esquema para a coleção "rental_requests"
 const rental_requestSchema = new Schema(
     {
         userId: String,
@@ -19,8 +20,6 @@ const rental_requestSchema = new Schema(
         timestamps: true,
     }
 );
-
-console.log(rental_requestSchema)
 
 const RentalRequest = mongoose.models.RentalRequest ||  mongoose.model("RentalRequest", rental_requestSchema)
 
