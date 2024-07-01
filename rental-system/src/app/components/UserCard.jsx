@@ -14,13 +14,13 @@ const formatName = (fullName) => {
     return '';
 };
 
-const UserCard = ({ name = '', gender, age, _id }) => {
+const UserCard = ({ name = '', gender, age, _id, shoeSize, height, weight }) => {
     const router = useRouter();
     const handleCardClick = () => {
         window.location.href = `/edit-account-employee?id=${_id}`;
     };
 
-    const formattedName = formatName(name);
+    const formattedName = formatName(name).toUpperCase();
 
     return (
         <button className="rounded-lg bg-gray-200" onClick={handleCardClick}>
@@ -28,8 +28,11 @@ const UserCard = ({ name = '', gender, age, _id }) => {
                 <p>{formattedName}</p>
             </div>
             <div className="p-2 text-left">
-                <p>{gender}</p>
-                <p>{age}</p>
+                <p>Sex: {gender}</p>
+                <p>Age: {age} </p>
+                <p>Shoe Size: {shoeSize}</p>
+                <p>Height: {height} cm</p>
+                <p>Weight: {weight} kg</p>
             </div>
         </button>
     );

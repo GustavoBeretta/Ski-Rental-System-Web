@@ -76,6 +76,9 @@ const UsersRegistered = () => {
                 key={r._id}
                 name={r.name}
                 gender={r.gender}
+                shoeSize={r.shoeSize}
+                height={r.height}
+                weight={r.weight}
                 age={r.age}
                 _id={r._id}
               />
