@@ -17,7 +17,7 @@ const formatName = (fullName) => {
 const UserCard = ({ name = '', gender, age, _id, shoeSize, height, weight }) => {
     const router = useRouter();
     const handleCardClick = () => {
-        window.location.href = `/edit-account-employee?id=${_id}`;
+        router.push(`/edit-account-employee/${_id}`);
     };
 
     const formattedName = formatName(name).toUpperCase();

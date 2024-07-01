@@ -5,7 +5,7 @@ const RentalRequestCardEmployee = ({ name, status, time, date, sport, _id, boots
 
     const router = useRouter();
     const handleCardClick = () => {
-        window.location.href = `/rental-requests-employee/information?id=${_id}`;
+        router.push(`/rental-requests-employee/information/${_id}`);
     }
     console.log(boots)
     return (

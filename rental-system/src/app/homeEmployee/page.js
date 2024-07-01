@@ -4,10 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
-
-const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
-    ssr: false
-});
+import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
 
 const getRequests = async () => {
     try {

@@ -2,33 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import NavBar from "../../components/NavBar";
-import { getSession } from 'next-auth/react'
+import NavBar from "../../../components/NavBar";
 
-export default function RentalRequestInformation() {
+export default function RentalRequestInformation({params}) {
     const [rentalRequestData, setRentalRequestData] = useState(null);
-    const [showButton, setShowButton] = useState(false);
     const [buttonText, setButtonText] = useState("Cancel");
-    const [buttonText2, setButtonText2] = useState("Cancel");
 
     const router = useRouter();
-    const currentUrl = window.location.href;
-    const urlObj = new URL(currentUrl);
-    const params = new URLSearchParams(urlObj.search);
-    const id = params.get('id');
-
-    useEffect(() => {
-        async function checkAccess() {
-            const session = await getSession();
-            if (!session || session.user.role !== 'employee') {
-                router.push('/home');
-            }
-        }
-        checkAccess();
-    }, []);
+    const id = params.id
 
     const topButtonHandler = () => {
-        router.push('/homeEmployee');
+        router.push('/rental-requests');
     }
 
     useEffect(() => {
@@ -41,17 +25,6 @@ export default function RentalRequestInformation() {
                     throw new Error("Failed to fetch the rental request");
                 }
                 const data = await res.json();
-                if (data.rentalRequest.status === "sent") {
-                    setShowButton("sent");
-                    setButtonText("Cancel");
-                    setButtonText2("In Progress");
-                } else if (data.rentalRequest.status === "in-progress") {
-                    setShowButton("in-progress");
-                    setButtonText("Return");
-                } else if (data.rentalRequest.status === "returned") {
-                    setShowButton("returned");
-                    setButtonText("Returned");
-                }
                 setRentalRequestData(data.rentalRequest);
             } catch (error) {
                 console.log("Error loading user data: ", error);
@@ -61,14 +34,31 @@ export default function RentalRequestInformation() {
         fetchRentalRequestData();
     }, []);
 
-    const changeStatus = async (newStatus) => {
-        const confirmCancel = window.confirm(`Are you sure you want to change the status to ${newStatus}?`);
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
+    const formatTime = (timestamp) => {
+        const date = new Date(timestamp);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${hours}:${minutes}`;
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const confirmCancel = window.confirm("Are you sure you want to cancel this rental request?");
         if (!confirmCancel) {
             return;
         }
 
-        const rentalRequestDataNewStatus = { ...rentalRequestData, status: newStatus };
-        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
+        const rentalRequestDataCanceled = {...rentalRequestData, status: 'canceled'};
+        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataCanceled;
         const rentalRequestNewData = {
             newUserId: cleanedData.userId,
             newNameUser: cleanedData.nameUser,
@@ -94,48 +84,16 @@ export default function RentalRequestInformation() {
                 body: rentalRequestDataJson
             });
             if (!res.ok) {
-                throw new Error("Failed to change the rental request status");
+                throw new Error("Failed to cancel the rental request");
             }
+            setButtonText("Canceled");
+            document.getElementById("submit").disabled = true;
         } catch (error) {
-            console.log("Error changing the rental request status: ", error);
+            console.log("Error canceling the rental request: ", error);
         }
+
+        router.push('/rental-requests');
     }
-
-    const handleCancel = async (event) => {
-        event.preventDefault();
-        changeStatus("canceled");
-        setButtonText('canceled');
-        router.push('/homeEmployee');
-    }
-
-    const handleInProgress = async (event) => {
-        event.preventDefault();
-        changeStatus("in-progress");
-        setButtonText('in-progress');
-        router.push('/homeEmployee');
-    }
-
-    const handleReturn = async (event) => {
-        event.preventDefault();
-        changeStatus("returned");
-        setButtonText('returned');
-        router.push('/homeEmployee');
-    }
-
-    const formatDate = (timestamp) => {
-        const date = new Date(timestamp);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
-
-    const formatTime = (timestamp) => {
-        const date = new Date(timestamp);
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `${hours}:${minutes}`;
-    };
 
     const inputs = [
         { label: "Full Name", name: "nameUser", type: "text" },
@@ -151,17 +109,17 @@ export default function RentalRequestInformation() {
 
     return (
         <div>
-            <NavBar showEmployeeHomeIcon={true} />
+            <NavBar showGuestHomeIcon={true} />
             <main className="mt-10">
                 <section className="flex flex-col items-center justify-center snap-none">
                     <div className='mt-6 flex flex-col items-center md:flex-row md:justify-items-center md:place-items-center'>
                         <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Request Information</h1>
                         <button class="flex ml-4 items-center justify-center w-10 h-10 text-white bg-[#81C9D8] rounded-full shadow-lg hover:bg-[#3a7885] focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75 p-1" onClick={topButtonHandler}>
-                            <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Log Out Icon" />
-                        </button>
+                                <img className="w-full h-full rounded-full object-cover" src="/voltar.png" alt="Log Out Icon" />
+                            </button>
                     </div>
                     <div className="flex items-center content-center flex-col lg:w-6/12 ">
-                        <form className="w-full rounded-lg space-y-4 sm:p-8">
+                        <form className="w-full rounded-lg space-y-4 sm:p-8" onSubmit={handleSubmit}>
                             {inputs.map((input) => (
                                 <div key={input.name}>
                                     <label htmlFor={input.name} className="block mb-1 text-sm font-medium text-[#8F8E8E]">
@@ -230,30 +188,9 @@ export default function RentalRequestInformation() {
                                     </div>
                                 </div>
                             </div>
+
                             <div className="flex justify-center">
-                                {showButton === "sent" ? (
-                                    <>
-                                        <button
-                                            type="submit"
-                                            className="bg-[#4094A5] hover:bg-[#81C9D8] text-center text-white text-sm font-semibold md:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
-                                            onClick={handleCancel}>
-                                            {buttonText}
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            className="bg-[#4094A5] hover:bg-[#81C9D8] text-white text-center font-semibold text-sm sm:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
-                                            onClick={handleInProgress}>
-                                            {buttonText2}
-                                        </button>
-                                    </>
-                                ) : showButton === "in-progress" ? (
-                                    <button
-                                        type="submit"
-                                        className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-center text-sm sm:text-lg rounded-lg p-2.5 w-4/12 mt-4 mb-4 mx-2"
-                                        onClick={handleReturn}>
-                                        {buttonText}
-                                    </button>
-                                ) : null}
+                                <button id="submit" type="submit" className="bg-[#4094A5] hover:bg-[#81C9D8] text-white font-semibold text-lg rounded-lg p-2.5 w-8/12 mt-4 mb-4">{buttonText}</button>
                             </div>
                         </form>
                     </div>

@@ -5,7 +5,7 @@ const RentalRequestCard = ({ status, sport, time, date, _id }) => {
 
     const router = useRouter();
     const handleCardClick = () => {
-        window.location.href = `/rental-requests/information?id=${_id}`;
+        router.push(`/rental-requests/information/${_id}`);
     }
 
     return (

@@ -4,17 +4,14 @@ import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react';
 import bcrypt from 'bcryptjs';
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
 
-export default function EditAccount() {
+export default function EditAccount({params}) {
     const [userData, setUserData] = useState({});
     const [dadosCadastro, setDadosCadastro] = useState({});
 
+    const id = params.id;
     const router = useRouter();
-    const currentUrl = window.location.href;
-    const urlObj = new URL(currentUrl);
-    const params = new URLSearchParams(urlObj.search);
-    const id = params.get('id');
 
     useEffect(() => {
         async function checkAccess() {
