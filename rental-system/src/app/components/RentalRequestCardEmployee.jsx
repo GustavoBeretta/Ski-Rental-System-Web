@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-const RentalRequestCardEmployee = ({ name, status, time, date, sport, _id, boots, helmet, skiBoard}) => {
+const RentalRequestCardEmployee = ({ name, time, date, sport, _id, boots, helmet, skiBoard}) => {
 
     const router = useRouter();
     const handleCardClick = () => {
