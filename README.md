@@ -3,7 +3,7 @@
 ## Membros:
 
 * Andres Kindel Barbosa - 23100757
-* Gustavo Beretta Gonçalves
+* Gustavo Beretta Gonçalves - 23100766
 * Josef Konrad Holanda Bruseke - 23102481
 * Luiz Adriano Augusto dos Santos - 23102478
 
