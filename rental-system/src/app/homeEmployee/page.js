@@ -122,6 +122,9 @@ export default function HomeEmployee() {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
@@ -135,6 +138,9 @@ export default function HomeEmployee() {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
@@ -148,6 +154,9 @@ export default function HomeEmployee() {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
