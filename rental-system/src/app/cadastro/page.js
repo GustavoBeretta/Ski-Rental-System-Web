@@ -72,7 +72,7 @@ export default function Cadastro() {
       if (!res.ok) {
         throw new Error("Failed to fetch the users")
       }
-
+      Swal.fire('Account created!', '', 'success')
       router.push('/');
 
     } catch (error) {
