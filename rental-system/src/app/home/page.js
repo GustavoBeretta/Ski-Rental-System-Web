@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/NavBar";
+import Swal from 'sweetalert2';
 
 export default function Home() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function Home() {
     const helmet = document.getElementById('helmet').checked;
 
     if (!ski_board && !boots && !helmet) {
-      alert('Please select at least one item to rent');
+      Swal.fire('Please select at least one item to rent!', '', 'warning')
       return;
     }
 
@@ -60,7 +61,7 @@ export default function Home() {
 
     const rentalRequestJSON = JSON.stringify(rentalRequest);
     try {
-      const res = await fetch('http://localhost:3000/api/rental-requests', {
+      const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
         cache: "no-store",
         method: "POST",
         headers: {
@@ -72,7 +73,7 @@ export default function Home() {
         throw new Error("Failed to fetch the rental requests")
       }
 
-      alert('Rental request submitted successfully!');
+      Swal.fire('Rental request submitted successfully!', '', 'success')
     } catch (error) {
       console.log("Error loading topics: ", error)
     }

@@ -1,17 +1,14 @@
-'use client'
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
-
-const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
-    ssr: false
-});
+import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
+import { useRouter } from 'next/navigation';
 
 const getRequests = async () => {
     try {
-        const res = await fetch('http://localhost:3000/api/rental-requests', {
+        const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
             cache: "no-store"
         });
         if (!res.ok) {
@@ -30,7 +27,7 @@ const formatDate = (timestamp) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
-}
+};
 
 const formatTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -38,7 +35,7 @@ const formatTime = (timestamp) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
-}
+};
 
 const abbreviateName = (fullName) => {
     if (!fullName) return '';
@@ -51,41 +48,47 @@ const abbreviateName = (fullName) => {
     const middleNames = nameParts.slice(1, -1).map(name => name.charAt(0) + '.').join(' ');
 
     return `${firstName} ${middleNames} ${lastName}`;
-}
+};
 
-const HomeEmployee = () => {
+export default function HomeEmployee() {
     const { data: session, status } = useSession();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getRequests();
                 setRequests(data.requests);
-                setLoading(false);
             } catch (error) {
-                console.error("Failed to fetch rental requests:", error);
+                setError("Failed to load rental requests. Please try again later.");
+            } finally {
                 setLoading(false);
             }
         };
 
         if (status === 'authenticated' && session?.user?.role === 'guest') {
-            window.location.href = '/home';
-        } else {
+            router.push('/home');
+        } else if (status === 'authenticated') {
             fetchData();
         }
-    }, [session, status]);
+    }, [session, status, router]);
 
     if (loading) {
         return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
     }
 
     const sentRequests = requests.filter(r => r.status === "sent");
     const inProgressRequests = requests.filter(r => r.status === "in-progress");
     const returnedRequests = requests.filter(r => r.status === "returned");
     const canceledRequests = requests.filter(r => r.status === "canceled");
-    
+
     return (
         <div>
             <NavBar showLogOutIcon={true} showUsersIcon={true} />
@@ -119,6 +122,9 @@ const HomeEmployee = () => {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
@@ -132,6 +138,9 @@ const HomeEmployee = () => {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
@@ -145,6 +154,9 @@ const HomeEmployee = () => {
                                 name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 sport={r.sport}
                             />
                         ))}
@@ -154,5 +166,3 @@ const HomeEmployee = () => {
         </div>
     );
 };
-
-export default HomeEmployee;

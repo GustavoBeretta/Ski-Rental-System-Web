@@ -2,20 +2,18 @@
 
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import NavBar from "../../components/NavBar";
-import { getSession } from 'next-auth/react'
+import NavBar from "../../../components/NavBar";
+import { getSession } from 'next-auth/react';
+import Swal from 'sweetalert2';
 
-export default function RentalRequestInformation() {
+export default function RentalRequestInformation({params}) {
     const [rentalRequestData, setRentalRequestData] = useState(null);
     const [showButton, setShowButton] = useState(false);
     const [buttonText, setButtonText] = useState("Cancel");
     const [buttonText2, setButtonText2] = useState("Cancel");
 
     const router = useRouter();
-    const currentUrl = window.location.href;
-    const urlObj = new URL(currentUrl);
-    const params = new URLSearchParams(urlObj.search);
-    const id = params.get('id');
+    const id = params.id;
 
     useEffect(() => {
         async function checkAccess() {
@@ -34,7 +32,7 @@ export default function RentalRequestInformation() {
     useEffect(() => {
         const fetchRentalRequestData = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/rental-requests/${id}`, {
+                const res = await fetch(`https://rental-request-app.vercel.app/api/rental-requests/${id}`, {
                     cache: "no-store"
                 });
                 if (!res.ok) {
@@ -62,10 +60,6 @@ export default function RentalRequestInformation() {
     }, []);
 
     const changeStatus = async (newStatus) => {
-        const confirmCancel = window.confirm(`Are you sure you want to change the status to ${newStatus}?`);
-        if (!confirmCancel) {
-            return;
-        }
 
         const rentalRequestDataNewStatus = { ...rentalRequestData, status: newStatus };
         const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
@@ -84,42 +78,55 @@ export default function RentalRequestInformation() {
             newHelmet: cleanedData.helmet
         }
         const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
-        try {
-            const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
-                cache: "no-store",
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: rentalRequestDataJson
-            });
-            if (!res.ok) {
-                throw new Error("Failed to change the rental request status");
+
+        Swal.fire({
+            title: "Attention!",
+            text: `Are you sure you want to change the status to ${newStatus}?`,
+            icon: "question",
+            showCancelButton:true,
+            showConfirmButton:true,
+            confirmButtonText:'Yes'
+
+          }).then( async (result) => {
+            if  (result.isConfirmed) { 
+                try {
+                    const res = await fetch(`https://rental-request-app.vercel.app/api/rental-requests/${rentalRequestData._id}`, {
+                        cache: "no-store",
+                        method: "PUT",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: rentalRequestDataJson
+                    });
+                    if (!res.ok) {
+                        throw new Error("Failed to change the rental request status");
+                    }
+                } catch (error) {
+                    console.log("Error changing the rental request status: ", error);
+                }
+                Swal.fire('Status succesfully updated!', '', 'success')
+                router.push('/homeEmployee');  
             }
-        } catch (error) {
-            console.log("Error changing the rental request status: ", error);
-        }
+                     
+          }); 
     }
 
     const handleCancel = async (event) => {
         event.preventDefault();
         changeStatus("canceled");
         setButtonText('canceled');
-        router.push('/homeEmployee');
     }
 
     const handleInProgress = async (event) => {
         event.preventDefault();
         changeStatus("in-progress");
         setButtonText('in-progress');
-        router.push('/homeEmployee');
     }
 
     const handleReturn = async (event) => {
         event.preventDefault();
         changeStatus("returned");
         setButtonText('returned');
-        router.push('/homeEmployee');
     }
 
     const formatDate = (timestamp) => {

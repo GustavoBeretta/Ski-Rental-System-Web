@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 const getUsers = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/users', {
+    const res = await fetch('https://rental-request-app.vercel.app/api/users', {
       cache: "no-store"
     });
     if (!res.ok) {

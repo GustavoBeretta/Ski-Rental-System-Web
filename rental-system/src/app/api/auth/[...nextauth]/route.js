@@ -4,7 +4,7 @@ import connectMongoDB from "../../../../../libs/mongodb"
 import bcrypt from 'bcryptjs'
 
 async function findUser(email) {
-    const response = await fetch("http://localhost:3000/api/users");
+    const response = await fetch("https://rental-request-app.vercel.app/api/users");
     const usuarios = await response.json();
     const user = await usuarios.users.find((usuario) => usuario.email === email);
     return user;

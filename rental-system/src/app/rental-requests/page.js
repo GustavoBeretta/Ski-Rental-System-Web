@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 
 const getRequests = async () => {
   try {
-    const res = await fetch('http://localhost:3000/api/rental-requests', {
+    const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
       cache: "no-store"
     });
     if (!res.ok) {
@@ -75,6 +75,9 @@ export default function RentalRequestsPage() {
                 status={r.status}
                 date={formatDate(r.createdAt)}
                 time={formatTime(r.createdAt)}
+                boots={r.boots}
+                helmet={r.helmet}
+                skiBoard={r.skiBoard} 
                 sport = {r.sport}
               />
             ))

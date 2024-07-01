@@ -1,13 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-const RentalRequestCardEmployee = ({ name, status, time, date, sport, _id, boots, helmet, skiBoard}) => {
+const RentalRequestCardEmployee = ({ name, time, date, sport, _id, boots, helmet, skiBoard}) => {
 
     const router = useRouter();
     const handleCardClick = () => {
-        window.location.href = `/rental-requests-employee/information?id=${_id}`;
+        router.push(`/rental-requests-employee/information/${_id}`);
     }
-    console.log(boots)
     return (
         <button className="rounded-lg bg-gray-200 m-2 w-full" onClick={handleCardClick}>
             <div className="bg-sky-200 rounded-lg p-2">

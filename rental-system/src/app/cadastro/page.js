@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
+import Swal from 'sweetalert2';
 
 export default function Cadastro() {
   async function checkIfEmailIsRegistered(email) {
-    const response = await fetch("http://localhost:3000/api/users");
+    const response = await fetch("https://rental-request-app.vercel.app/api/users");
     const usuarios = await response.json();
     const check = await usuarios.users.some((usuario) => usuario.email === email);
     return check;
@@ -34,12 +35,12 @@ export default function Cadastro() {
     const role = "guest";
 
     if (await checkIfEmailIsRegistered(email)) {
-      window.alert("Email already registered");
+      Swal.fire('Email already registered', '', 'warning')
      return;
     }
       
     if (password !== passwordConfirmation) {
-      window.alert("Passwords do not match");
+      Swal.fire('Passwords do not match', '', 'warning')
       return;
     }
 
@@ -60,7 +61,7 @@ export default function Cadastro() {
     const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
     try {
-      const res = await fetch('http://localhost:3000/api/users', {
+      const res = await fetch('https://rental-request-app.vercel.app/api/users', {
         cache: "no-store",
         method: "POST",
         headers: {
@@ -71,7 +72,7 @@ export default function Cadastro() {
       if (!res.ok) {
         throw new Error("Failed to fetch the users")
       }
-
+      Swal.fire('Account created!', '', 'success')
       router.push('/');
 
     } catch (error) {

@@ -4,17 +4,15 @@ import { useRouter } from 'next/navigation';
 import { getSession } from 'next-auth/react'
 import React, { useState, useEffect } from 'react';
 import bcrypt from 'bcryptjs';
-import NavBar from "../components/NavBar";
+import NavBar from "../../components/NavBar";
+import Swal from 'sweetalert2';
 
-export default function EditAccount() {
+export default function EditAccount({params}) {
     const [userData, setUserData] = useState({});
     const [dadosCadastro, setDadosCadastro] = useState({});
 
+    const id = params.id;
     const router = useRouter();
-    const currentUrl = window.location.href;
-    const urlObj = new URL(currentUrl);
-    const params = new URLSearchParams(urlObj.search);
-    const id = params.get('id');
 
     useEffect(() => {
         async function checkAccess() {
@@ -32,7 +30,7 @@ export default function EditAccount() {
 
     async function getUserID() {
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+            const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                 cache: "no-store"
             });
             if (!res.ok) {
@@ -66,8 +64,8 @@ export default function EditAccount() {
 
 
         if (password && passwordConfirmation) {
-            if (password !== passwordConfirmation) {
-                window.alert("Passwords do not match");
+            if (password !== passwordConfirmation) {       
+                Swal.fire('Passwords do not match', '', 'error')
                 return;
             }
 
@@ -102,7 +100,7 @@ export default function EditAccount() {
 
 
         try {
-            const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+            const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                 cache: "no-store",
                 method: "PUT",
                 headers: {
@@ -113,7 +111,7 @@ export default function EditAccount() {
             if (!res.ok) {
                 throw new Error("Failed to update user information");
             }
-            window.alert("User information updated successfully");
+            Swal.fire('User information updated successfully!', '', 'success')
             router.push('/usersRegistered');
 
         } catch (error) {
@@ -140,27 +138,41 @@ export default function EditAccount() {
     const topButtonHandler = () => {
         router.push('/usersRegistered');
     }
-    const trashButtonHandler = async () => {
-        const confirmed = window.confirm("Você tem certeza que deseja deletar?");
-        if (confirmed) {
-            try {
-                const res = await fetch(`http://localhost:3000/api/users/${id}`, {
-                    cache: "no-store",
-                    method: "DELETE",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                });
-                if (!res.ok) {
-                    throw new Error("Failed to DELETE user information");
-                }
-                window.alert("User information deleted successfully");
-                router.push('/usersRegistered');
 
-            } catch (error) {
-                console.log("Error deleting user information:", error);
-            }
-        }
+
+
+
+    const trashButtonHandler = async () => {
+        Swal.fire({
+            title: "Attention!",
+            text: "Are you sure you want to delete the user?",
+            icon: "warning",
+            showCancelButton:true,
+            showConfirmButton:true,
+            confirmButtonText:'Yes'
+
+          }).then( async (result) => {
+            if  (result.isConfirmed) { 
+                    try {
+                        const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
+                            cache: "no-store",
+                            method: "DELETE",
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        });
+                        if (!res.ok) {
+                            throw new Error("Failed to DELETE user information");
+                        }
+                        Swal.fire('User deleted!', '', 'success')
+                        router.push('/usersRegistered');
+        
+                    } catch (error) {
+                        console.log("Error deleting user information:", error);
+                    }
+                }            
+          });
+
     }
 
     const inputs = [
