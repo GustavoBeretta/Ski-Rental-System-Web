@@ -61,6 +61,24 @@ export default function RentalRequestInformation({params}) {
 
     const changeStatus = async (newStatus) => {
 
+        const rentalRequestDataNewStatus = { ...rentalRequestData, status: newStatus };
+        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
+        const rentalRequestNewData = {
+            newUserId: cleanedData.userId,
+            newNameUser: cleanedData.nameUser,
+            newGender: cleanedData.gender,
+            newShoeSize: cleanedData.shoeSize,
+            newAge: cleanedData.age,
+            newWeight: cleanedData.weight,
+            newHeight: cleanedData.height,
+            newSport: cleanedData.sport,
+            newStatus: cleanedData.status,
+            newSki_Board: cleanedData.ski_board,
+            newBoots: cleanedData.boots,
+            newHelmet: cleanedData.helmet
+        }
+        const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
+
         Swal.fire({
             title: "Attention!",
             text: `Are you sure you want to change the status to ${newStatus}?`,
@@ -86,28 +104,9 @@ export default function RentalRequestInformation({params}) {
                 } catch (error) {
                     console.log("Error changing the rental request status: ", error);
                 }
+                Swal.fire('Status succesfully updated!', '', 'success')
             }            
           });
-
-
-
-        const rentalRequestDataNewStatus = { ...rentalRequestData, status: newStatus };
-        const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataNewStatus;
-        const rentalRequestNewData = {
-            newUserId: cleanedData.userId,
-            newNameUser: cleanedData.nameUser,
-            newGender: cleanedData.gender,
-            newShoeSize: cleanedData.shoeSize,
-            newAge: cleanedData.age,
-            newWeight: cleanedData.weight,
-            newHeight: cleanedData.height,
-            newSport: cleanedData.sport,
-            newStatus: cleanedData.status,
-            newSki_Board: cleanedData.ski_board,
-            newBoots: cleanedData.boots,
-            newHelmet: cleanedData.helmet
-        }
-        const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
         
     }
 
