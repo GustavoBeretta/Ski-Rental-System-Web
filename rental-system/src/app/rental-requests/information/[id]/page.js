@@ -19,8 +19,8 @@ export default function RentalRequestInformation({params}) {
     useEffect(() => {
         const fetchRentalRequestData = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/rental-requests/${id}`, {
-                    cache: "no-store"
+                const res = await fetch(`https://rental-request-app.vercel.app/api/rental-requests/${id}`, {
+                    cache: "no-store",
                 });
                 if (!res.ok) {
                     throw new Error("Failed to fetch the rental request");
@@ -68,7 +68,10 @@ export default function RentalRequestInformation({params}) {
                         cache: "no-store",
                         method: "PUT",
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
                         },
                         body: rentalRequestDataJson
                     });
