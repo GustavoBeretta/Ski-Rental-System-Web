@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
+import Swal from 'sweetalert2';
 
 export default function Cadastro() {
   async function checkIfEmailIsRegistered(email) {
@@ -34,12 +35,12 @@ export default function Cadastro() {
     const role = "guest";
 
     if (await checkIfEmailIsRegistered(email)) {
-      window.alert("Email already registered");
+      Swal.fire('Email already registered', '', 'warning')
      return;
     }
       
     if (password !== passwordConfirmation) {
-      window.alert("Passwords do not match");
+      Swal.fire('Passwords do not match', '', 'warning')
       return;
     }
 
