@@ -22,9 +22,9 @@ export default function Login() {
         try {
             // chama a função de login do next-auth
             const res = await signIn("credentials", {
-                email, password, isEmployeeLogin, redirect:false,
+                email, password, isEmployeeLogin, redirect: false,
             })
-            
+
             if (res.error) {
                 Swal.fire('Invalid credentials', '', 'warning')
                 return
@@ -32,11 +32,11 @@ export default function Login() {
             
             // verifica se o login é de cliente ou funcionário, para redirecionar para a página correta
             if (isEmployeeLogin) {
-                router.replace("homeEmployee")
+                router.push("/homeEmployee")
             } else {
-                router.replace("home")
+                router.push("/home")
             }
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -50,7 +50,7 @@ export default function Login() {
 
     return (
         <div>
-            <NavBar/>
+            <NavBar />
             <main className="lg:mt-40 p-4">
                 <section>
                     <div className="flex flex-col items-center justify-center px-6 py-8 lg:py-0">
