@@ -60,7 +60,7 @@ export default function Cadastro() {
     const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
     try {
-      const res = await fetch('http://localhost:3000/api/users', {
+      const res = await fetch('https://rental-request-app.vercel.app/api/users', {
         cache: "no-store",
         method: "POST",
         headers: {
