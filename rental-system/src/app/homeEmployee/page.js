@@ -1,5 +1,13 @@
-import RentalRequestCardEmployee from "../components/RentalRequestCardEmployee";
+'use client'
+
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
+
+const RentalRequestCardEmployee = dynamic(() => import('../components/RentalRequestCardEmployee'), {
+    ssr: false
+});
 
 const getRequests = async () => {
     try {
@@ -11,7 +19,8 @@ const getRequests = async () => {
         }
         return res.json();
     } catch (error) {
-        console.log("Error loading topics: ", error);
+        console.error("Error loading rental requests: ", error);
+        throw error;
     }
 };
 
@@ -31,72 +40,111 @@ const formatTime = (timestamp) => {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-export default async function HomeEmployee() {
-    const { requests } = await getRequests();
+const abbreviateName = (fullName) => {
+    if (!fullName) return '';
 
-    const sentRequests = requests.filter(r => r.status === "Sent");
-    const inProgressRequests = requests.filter(r => r.status === "In Progress");
-    const returnedRequests = requests.filter(r => r.status === "Returned");
-    const canceledRequests = requests.filter(r => r.status === "Canceled");
+    const nameParts = fullName.split(' ');
+    if (nameParts.length === 1) return fullName;
 
-    console.log(sentRequests);
-    console.log(inProgressRequests);
-    console.log(returnedRequests);
-    console.log(canceledRequests);
-    console.log(requests);
+    const firstName = nameParts[0];
+    const lastName = nameParts[nameParts.length - 1];
+    const middleNames = nameParts.slice(1, -1).map(name => name.charAt(0) + '.').join(' ');
+
+    return `${firstName} ${middleNames} ${lastName}`;
+}
+
+const HomeEmployee = () => {
+    const { data: session, status } = useSession();
+    const [requests, setRequests] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getRequests();
+                setRequests(data.requests);
+                setLoading(false);
+            } catch (error) {
+                console.error("Failed to fetch rental requests:", error);
+                setLoading(false);
+            }
+        };
+
+        if (status === 'authenticated' && session?.user?.role === 'guest') {
+            window.location.href = '/home';
+        } else {
+            fetchData();
+        }
+    }, [session, status]);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    const sentRequests = requests.filter(r => r.status === "sent");
+    const inProgressRequests = requests.filter(r => r.status === "in-progress");
+    const returnedRequests = requests.filter(r => r.status === "returned");
+    const canceledRequests = requests.filter(r => r.status === "canceled");
+    
     return (
         <div>
-            <NavBar showLogOutIcon={true} showUsersIcon={true}/>
-            <main className="mt-10 flex flex-col items-center justify-between">
+            <NavBar showLogOutIcon={true} showUsersIcon={true} />
+            <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
-                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E]">Rental Requests</h1>
+                    <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase text-center">Rental Requests</h1>
                 </div>
-                <div className="grid lg:grid-cols-4 gap-4 grid-cols-2 sm:gap-4">
-                    <div>
+                <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6 p-4">
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Sent</h2>
-                        
                         {sentRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
+                                boots={r.boots}
+                                helmet={r.helmet}
+                                skiBoard={r.skiBoard}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                name={r.name}
                                 sport={r.sport}
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">In Progress</h2>
                         {inProgressRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Returned</h2>
                         {returnedRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <h2 className="text-center text-xl">Canceled</h2>
                         {canceledRequests.map(r => (
                             <RentalRequestCardEmployee
-                                key={r.id}
+                                key={r._id}
+                                _id={r._id}
+                                name={abbreviateName(r.nameUser)}
                                 date={formatDate(r.createdAt)}
                                 time={formatTime(r.createdAt)}
-                                status={r.status}
                                 sport={r.sport}
                             />
                         ))}
@@ -105,4 +153,6 @@ export default async function HomeEmployee() {
             </main>
         </div>
     );
-}
+};
+
+export default HomeEmployee;

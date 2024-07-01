@@ -3,11 +3,10 @@ import connectMongoDB from "../../../../libs/mongodb"
 import RentalRequest from "../../../../models/rental_request";
 
 export async function POST(request) {
-    const { userId, sport, status, ski_board, boots, helmet } = await request.json();
+    const { userId, nameUser, gender, shoeSize, age, weight, height, sport, status, ski_board, boots, helmet } = await request.json();
     await connectMongoDB();
-    await RentalRequest.create({ userId, sport, status, ski_board, boots, helmet });
+    await RentalRequest.create({ userId, nameUser, gender, shoeSize, age, weight, height, sport, status, ski_board, boots, helmet });
     return NextResponse.json({message: "Rental Request created"}, {status: 201})
-
 }
 
 export async function GET() {

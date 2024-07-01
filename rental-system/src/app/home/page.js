@@ -12,8 +12,8 @@ export default function Home() {
 
   useEffect(() => {
     if (session && session.user) {
-        const user = session.user;
-        setUserData(user);
+      const user = session.user;
+      setUserData(user);
     }
   }, [session]);
 
@@ -27,20 +27,32 @@ export default function Home() {
     event.preventDefault();
 
     const userId = userData._id;
+    const userName = userData.name;
+    const gender = userData.gender
+    const shoeSize = userData.shoeSize;
+    const age = userData.age;
+    const weight = userData.weight;
+    const height = userData.height;
     const sport = document.getElementById('sport').value;
     const ski_board = document.getElementById('ski-board').checked;
     const boots = document.getElementById('boots').checked;
     const helmet = document.getElementById('helmet').checked;
 
-    if(!ski_board && !boots && !helmet) {
+    if (!ski_board && !boots && !helmet) {
       alert('Please select at least one item to rent');
       return;
     }
 
     const rentalRequest = {
       userId: userId,
+      nameUser: userName,
+      gender: gender,
+      shoeSize: shoeSize,
+      age: age,
+      weight: weight,
+      height: height,
       sport: sport,
-      status: 'send',
+      status: 'sent',
       ski_board: ski_board,
       boots: boots,
       helmet: helmet
@@ -68,7 +80,7 @@ export default function Home() {
 
   return (
     <div>
-      <NavBar showLogOutIcon={true}/>
+      <NavBar showLogOutIcon={true} />
       <main className="flex flex-col items-center justify-between py-0 mb-0 lg:mt-60 p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-60">
           <div className="flex flex-col items-center justify-center">
