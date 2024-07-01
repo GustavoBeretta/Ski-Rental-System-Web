@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
+import { useRouter } from 'next/router';
 
 const getRequests = async () => {
     try {
@@ -54,6 +55,7 @@ const HomeEmployee = () => {
     const { data: session, status } = useSession();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,7 +70,7 @@ const HomeEmployee = () => {
         };
 
         if (status === 'authenticated' && session?.user?.role === 'guest') {
-            window.location.href = '/home';
+            router.push('/home');
         } else {
             fetchData();
         }

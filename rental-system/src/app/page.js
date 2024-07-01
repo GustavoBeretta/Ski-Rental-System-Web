@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react'
 import NavBar from "./components/NavBar";
+import Swal from 'sweetalert2';
 
 export default function Login() {
 
@@ -22,7 +23,7 @@ export default function Login() {
             })
             
             if (res.error) {
-                window.alert('Invalid credentials')
+                Swal.fire('Invalid credentials', '', 'warning')
                 return
             }
             

@@ -81,7 +81,6 @@ export default function EditAccount() {
                 throw new Error("Failed to update user information");
             }
             Swal.fire('User information updated successfully!', '', 'success')
-            window.alert("User information updated successfully");
             signOut()
         } catch (error) {
             Swal.fire(`Error updating user information: ${error}`, '', 'error');
