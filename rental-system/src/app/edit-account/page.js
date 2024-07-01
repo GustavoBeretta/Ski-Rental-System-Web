@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react"
+import Swal from 'sweetalert2';
 
 export default function EditAccount() {
     const { data: session, status } = useSession();
@@ -42,12 +43,12 @@ export default function EditAccount() {
         event.preventDefault();
 
         if (formData.newPassword !== formData.newPasswordConfirmation) {
-            window.alert("Passwords do not match");
+            Swal.fire('Passwords do not match', '', 'error')
             return;
         }
 
         if (!(await bcrypt.compare(formData.currentPassword, userData.password))) {
-            window.alert("Current password is not correct");
+            Swal.fire('Current password is not correct', '', 'error')
             return;
         }
 
@@ -79,10 +80,11 @@ export default function EditAccount() {
             if (!res.ok) {
                 throw new Error("Failed to update user information");
             }
+            Swal.fire('User information updated successfully!', '', 'success')
             window.alert("User information updated successfully");
             signOut()
         } catch (error) {
-            window.alert("Error updating user information:", error);
+            Swal.fire(`Error updating user information: ${error}`, '', 'error');
         }
     };
 

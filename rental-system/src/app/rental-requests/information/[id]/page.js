@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import NavBar from "../../../components/NavBar";
+import Swal from 'sweetalert2';
 
 export default function RentalRequestInformation({params}) {
     const [rentalRequestData, setRentalRequestData] = useState(null);
@@ -52,10 +53,39 @@ export default function RentalRequestInformation({params}) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const confirmCancel = window.confirm("Are you sure you want to cancel this rental request?");
-        if (!confirmCancel) {
-            return;
-        }
+
+        Swal.fire({
+            title: "Attention!",
+            text: "Are you sure you want to cancel this request?",
+            icon: "question",
+            showCancelButton:true,
+            showConfirmButton:true,
+            confirmButtonText:'Yes'
+          }).then( async (result) => {
+            if  (result.isConfirmed) { 
+                try {
+                    const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
+                        cache: "no-store",
+                        method: "PUT",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: rentalRequestDataJson
+                    });
+                    if (!res.ok) {
+                        throw new Error("Failed to cancel the rental request");
+                    }
+                    setButtonText("Canceled");
+                    document.getElementById("submit").disabled = true;
+                } catch (error) {
+                    console.log("Error canceling the rental request: ", error);
+                }
+        
+                router.push('/rental-requests');
+                    
+                }            
+          });
+
 
         const rentalRequestDataCanceled = {...rentalRequestData, status: 'canceled'};
         const { createdAt, updatedAt, __v, _id, ...cleanedData } = rentalRequestDataCanceled;
@@ -74,25 +104,6 @@ export default function RentalRequestInformation({params}) {
             newHelmet: cleanedData.helmet
         }
         const rentalRequestDataJson = JSON.stringify(rentalRequestNewData);
-        try {
-            const res = await fetch(`http://localhost:3000/api/rental-requests/${rentalRequestData._id}`, {
-                cache: "no-store",
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: rentalRequestDataJson
-            });
-            if (!res.ok) {
-                throw new Error("Failed to cancel the rental request");
-            }
-            setButtonText("Canceled");
-            document.getElementById("submit").disabled = true;
-        } catch (error) {
-            console.log("Error canceling the rental request: ", error);
-        }
-
-        router.push('/rental-requests');
     }
 
     const inputs = [
