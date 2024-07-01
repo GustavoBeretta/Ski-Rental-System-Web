@@ -8,36 +8,41 @@ import Swal from 'sweetalert2';
 
 export default function Login() {
 
+    // states que armazenam o email e senha digitados, além da escolha do usuário de fazer login como cliente ou funcionário
     const [isEmployeeLogin, setIsEmployeeLogin] = useState(false);
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const router = useRouter()
 
+    // gerencia o login
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
+            // chama a função de login do next-auth
             const res = await signIn("credentials", {
-                email, password, isEmployeeLogin, redirect:false,
+                email, password, isEmployeeLogin, redirect: false,
             })
-            
+
             if (res.error) {
                 Swal.fire('Invalid credentials', '', 'warning')
                 return
             }
             
+            // verifica se o login é de cliente ou funcionário, para redirecionar para a página correta
             if (isEmployeeLogin) {
-                router.replace("homeEmployee")
+                router.push("/homeEmployee")
             } else {
-                router.replace("home")
+                router.push("/home")
             }
-            
+
         } catch (error) {
             console.log(error)
         }
     }
 
+    // configura isEmployeeLogin para true, o que modifica a página para o login de funcionário e garante que o redirecionamente será feito para a página inicial de funcionário
     const handleEmployeeLoginClick = () => {
         setIsEmployeeLogin(true);
 
@@ -45,7 +50,7 @@ export default function Login() {
 
     return (
         <div>
-            <NavBar/>
+            <NavBar />
             <main className="lg:mt-40 p-4">
                 <section>
                     <div className="flex flex-col items-center justify-center px-6 py-8 lg:py-0">

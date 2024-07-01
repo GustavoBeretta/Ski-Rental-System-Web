@@ -8,8 +8,12 @@ import { signOut } from "next-auth/react";
 import Swal from 'sweetalert2';
 
 export default function EditAccount() {
+    //obtém os dados e status da sessão
     const { data: session, status } = useSession();
+
+    // armazena os dados do usuário logado
     const [userData, setUserData] = useState(null);
+    //armazena os dados do formulário
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -23,6 +27,7 @@ export default function EditAccount() {
         height: ''
     });
 
+    //atualiza o formulário com os dados do usuário
     useEffect(() => {
         if (session && session.user) {
             const user = session.user;
@@ -42,18 +47,22 @@ export default function EditAccount() {
     const updateUser = async (event) => {
         event.preventDefault();
 
+        // Verifica se as novas senhas digitadas coincidem
         if (formData.newPassword !== formData.newPasswordConfirmation) {
             Swal.fire('Passwords do not match', '', 'error')
             return;
         }
 
+        // Verifica se a senha atual digitada corresponde à senha do usuário
         if (!(await bcrypt.compare(formData.currentPassword, userData.password))) {
             Swal.fire('Current password is not correct', '', 'error')
             return;
         }
 
+        // Criptografa a nova senha, se fornecida; caso contrário, mantém a senha atual
         const hashPassword = formData.newPassword ? await bcrypt.hash(formData.newPassword, 10) : userData.password;
 
+        // Objeto com os dados atualizados do usuário
         const dadosCadastro = {
             newName: formData.fullName,
             newEmail: formData.email,
@@ -65,9 +74,9 @@ export default function EditAccount() {
             newHeight: formData.height,
             newRole: session.user.role
         };
-
         const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
+        // requisição para atualizar o cadastro
         try {
             const res = await fetch(`https://rental-request-app.vercel.app/api/users/${userData._id}`, {
                 cache: "no-store",
@@ -87,6 +96,7 @@ export default function EditAccount() {
         }
     };
 
+    // Função para atualizar o estado do formulário com as alterações feitas nos inputs
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({
@@ -95,6 +105,7 @@ export default function EditAccount() {
         }));
     };
 
+    // Array com os dados dos campos do formulário
     const inputs = [
         { label: "FULL NAME:", name: "fullName", type: "text" },
         { label: "EMAIL:", name: "email", type: "email" },
@@ -108,6 +119,7 @@ export default function EditAccount() {
         { label: "HEIGHT (CM):", name: "height", type: "number" },
     ];
 
+    // retorna um componente que indica que a sessão ainda está carregando
     if (status === 'loading' || !userData) {
         return <div>Loading...</div>;
     }

@@ -7,6 +7,8 @@ import NavBar from "../components/NavBar";
 import Swal from 'sweetalert2';
 
 export default function Cadastro() {
+
+  // função que checa se o email digitado já foi cadastrado
   async function checkIfEmailIsRegistered(email) {
     const response = await fetch("https://rental-request-app.vercel.app/api/users");
     const usuarios = await response.json();
@@ -14,6 +16,7 @@ export default function Cadastro() {
     return check;
   }
 
+  // função para criptografar a senha
   function getHashPassword(senha) {
       return bcrypt.hash(senha, 10);
   }
@@ -23,6 +26,7 @@ export default function Cadastro() {
   const postUsers = async (event) => {
     event.preventDefault();
 
+    // obtém os valores digitados no formulário
     const fullName = document.getElementById("name").value;
     const email = document.getElementById("email").value.toLowerCase();
     const password = document.getElementById("password").value;
@@ -34,18 +38,22 @@ export default function Cadastro() {
     const height = document.getElementById("height").value;
     const role = "guest";
 
+    // checa se o email ja foi digitado
     if (await checkIfEmailIsRegistered(email)) {
       Swal.fire('Email already registered', '', 'warning')
      return;
     }
-      
+     
+    // checa se as senhas digitadas batem entre si
     if (password !== passwordConfirmation) {
       Swal.fire('Passwords do not match', '', 'warning')
       return;
     }
 
+    // criptografa a senha digitada
     const hashPassword =  await getHashPassword(password);
 
+    // objeto com os dados do usuário
     const dadosCadastro = {
       name: fullName,
       email: email,
@@ -58,9 +66,11 @@ export default function Cadastro() {
       role: role
     }
 
+    // converte para JSON
     const dadosCadastroJson = JSON.stringify(dadosCadastro);
 
     try {
+      // requisição para criar um novo usuário
       const res = await fetch('https://rental-request-app.vercel.app/api/users', {
         cache: "no-store",
         method: "POST",
@@ -80,6 +90,7 @@ export default function Cadastro() {
     }
   }
 
+  // inputs disponíveis no formulário
   const inputs = [
     { label: "FULL NAME:", name: "name", type: "text" },
     { label: "EMAIL:", name: "email", type: "email" },

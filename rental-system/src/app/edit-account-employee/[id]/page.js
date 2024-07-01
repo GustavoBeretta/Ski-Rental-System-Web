@@ -8,12 +8,16 @@ import NavBar from "../../components/NavBar";
 import Swal from 'sweetalert2';
 
 export default function EditAccount({params}) {
+    // armazena os dados do usuário logado
     const [userData, setUserData] = useState({});
+    //armazena os dados a serem cadastrados
     const [dadosCadastro, setDadosCadastro] = useState({});
 
+    // pega o id do usuário a ser editado
     const id = params.id;
     const router = useRouter();
 
+    //impede que guests acessem essa página
     useEffect(() => {
         async function checkAccess() {
             const session = await getSession();
@@ -24,10 +28,12 @@ export default function EditAccount({params}) {
         checkAccess();
     }, []);
 
+    //criptografa a senha
     function getHashPassword(senha) {
         return bcrypt.hash(senha, 10);
     }
 
+    // busca usuário pelo seu ID
     async function getUserID() {
         try {
             const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
@@ -51,6 +57,7 @@ export default function EditAccount({params}) {
     const updateUser = async (event) => {
         event.preventDefault();
 
+        // obtém os valores do formulário
         const fullName = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("newPassword").value;
@@ -62,15 +69,17 @@ export default function EditAccount({params}) {
         const height = document.getElementById("height").value;
         const employeeYes = document.getElementById("employee-Yes").checked ? "employee" : "guest";
 
-
+        //verifica se os campos de senha foram preenchidos e se são iguais
         if (password && passwordConfirmation) {
             if (password !== passwordConfirmation) {       
                 Swal.fire('Passwords do not match', '', 'error')
                 return;
             }
 
+            // criptografa a senha
             const hashPassword = await getHashPassword(password);
 
+            // objeto com os novos dados a serem cadastrados
             const dadosCadastro = {
                 newName: fullName,
                 newEmail: email,
@@ -98,7 +107,7 @@ export default function EditAccount({params}) {
             setDadosCadastro(JSON.stringify(dadosCadastro));
         }
 
-
+        // requisição para alterar os dados
         try {
             const res = await fetch(`https://rental-request-app.vercel.app/api/users/${id}`, {
                 cache: "no-store",
@@ -135,13 +144,12 @@ export default function EditAccount({params}) {
         }));
     };
 
+    // configura botão de voltar à tela anterior
     const topButtonHandler = () => {
         router.push('/usersRegistered');
     }
 
-
-
-
+    // configura botão de exclusão de usuário
     const trashButtonHandler = async () => {
         Swal.fire({
             title: "Attention!",

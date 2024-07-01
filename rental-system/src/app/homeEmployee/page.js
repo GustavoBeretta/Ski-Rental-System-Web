@@ -6,6 +6,7 @@ import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
 import { useRouter } from 'next/navigation';
 
+//pega as rental requests cadastradas no BD
 const getRequests = async () => {
     try {
         const res = await fetch('https://rental-request-app.vercel.app/api/rental-requests', {
@@ -21,6 +22,7 @@ const getRequests = async () => {
     }
 };
 
+//trata as informações de data e horário
 const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, '0');
@@ -28,7 +30,6 @@ const formatDate = (timestamp) => {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 };
-
 const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     const hours = String(date.getHours()).padStart(2, '0');
@@ -37,6 +38,7 @@ const formatTime = (timestamp) => {
     return `${hours}:${minutes}:${seconds}`;
 };
 
+//abrevia nomes
 const abbreviateName = (fullName) => {
     if (!fullName) return '';
 
@@ -51,6 +53,7 @@ const abbreviateName = (fullName) => {
 };
 
 export default function HomeEmployee() {
+    //pega os dados da sessão
     const { data: session, status } = useSession();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -69,6 +72,7 @@ export default function HomeEmployee() {
             }
         };
 
+        // impede guests de acessarem a página
         if (status === 'authenticated' && session?.user?.role === 'guest') {
             router.push('/home');
         } else if (status === 'authenticated') {
@@ -84,6 +88,7 @@ export default function HomeEmployee() {
         return <p>{error}</p>;
     }
 
+    //separa as requests de acordo com seu status
     const sentRequests = requests.filter(r => r.status === "sent");
     const inProgressRequests = requests.filter(r => r.status === "in-progress");
     const returnedRequests = requests.filter(r => r.status === "returned");
