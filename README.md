@@ -27,9 +27,9 @@ O cadastro de novos usuários poderá ser realizado de forma autônoma, mas, par
 
 ## Links:
 
-Repositório: https://github.com/GustavoBeretta/Trabalho-Web/tree/main
+Repositório: https://github.com/josefbruseke/rental-request-app/tree/main
 
-Aplicação:
+Aplicação: https://rental-request-app.vercel.app
 
 ## Requisitos da aplicação _Web_:
 
