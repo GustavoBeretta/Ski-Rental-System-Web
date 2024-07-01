@@ -8,16 +8,19 @@ import Swal from 'sweetalert2';
 
 export default function Login() {
 
+    // states que armazenam o email e senha digitados, além da escolha do usuário de fazer login como cliente ou funcionário
     const [isEmployeeLogin, setIsEmployeeLogin] = useState(false);
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const router = useRouter()
 
+    // gerencia o login
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
+            // chama a função de login do next-auth
             const res = await signIn("credentials", {
                 email, password, isEmployeeLogin, redirect: false,
             })
@@ -26,7 +29,8 @@ export default function Login() {
                 Swal.fire('Invalid credentials', '', 'warning')
                 return
             }
-
+            
+            // verifica se o login é de cliente ou funcionário, para redirecionar para a página correta
             if (isEmployeeLogin) {
                 router.push("/homeEmployee")
             } else {
@@ -38,6 +42,7 @@ export default function Login() {
         }
     }
 
+    // configura isEmployeeLogin para true, o que modifica a página para o login de funcionário e garante que o redirecionamente será feito para a página inicial de funcionário
     const handleEmployeeLoginClick = () => {
         setIsEmployeeLogin(true);
 
@@ -65,7 +70,7 @@ export default function Login() {
                                     </div>
                                     <div className="flex items-center justify-center flex-col">
                                         {!isEmployeeLogin ? (
-                                            <a href="/cadastro" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Create new account</a>
+                                            <a href="./cadastro" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Create new account</a>
                                         ) : (<a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Guest? Login here</a>)}
                                         {!isEmployeeLogin && (
                                             <a href="#" id="employeeBtton" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black mt-3" onClick={handleEmployeeLoginClick}>Employee? Login here</a>

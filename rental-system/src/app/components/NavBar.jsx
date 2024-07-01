@@ -7,6 +7,7 @@ const NavBar = ({ showGuestHomeIcon, showEmployeeHomeIcon, showLogOutIcon, showU
 
     const router = useRouter();
 
+    // redireciona para uma determinada página dependendo do botão clicado
     function RedirectHomeGuest() {
         router.push('/home')
     }
