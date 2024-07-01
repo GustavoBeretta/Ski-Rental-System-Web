@@ -19,20 +19,20 @@ export default function Login() {
 
         try {
             const res = await signIn("credentials", {
-                email, password, isEmployeeLogin, redirect:false,
+                email, password, isEmployeeLogin, redirect: false,
             })
-            
+
             if (res.error) {
                 Swal.fire('Invalid credentials', '', 'warning')
                 return
             }
-            
+
             if (isEmployeeLogin) {
-                router.replace("homeEmployee")
+                router.replace("/homeEmployee")
             } else {
-                router.replace("home")
+                router.replace("/home")
             }
-            
+
         } catch (error) {
             console.log(error)
         }
@@ -45,7 +45,7 @@ export default function Login() {
 
     return (
         <div>
-            <NavBar/>
+            <NavBar />
             <main className="lg:mt-40 p-4">
                 <section>
                     <div className="flex flex-col items-center justify-center px-6 py-8 lg:py-0">
