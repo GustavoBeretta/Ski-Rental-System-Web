@@ -105,9 +105,9 @@ export default function RentalRequestInformation({params}) {
                     console.log("Error changing the rental request status: ", error);
                 }
                 Swal.fire('Status succesfully updated!', '', 'success')
-            }            
-          });
-        
+            } else {
+                router.push(`/homeEmployee/information/${rentalRequestData._id}`)};           
+          }); 
     }
 
     const handleCancel = async (event) => {
