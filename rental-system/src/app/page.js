@@ -65,7 +65,7 @@ export default function Login() {
                                     </div>
                                     <div className="flex items-center justify-center flex-col">
                                         {!isEmployeeLogin ? (
-                                            <a href="./cadastro" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Create new account</a>
+                                            <a href="/cadastro" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Create new account</a>
                                         ) : (<a href="/" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black">Guest? Login here</a>)}
                                         {!isEmployeeLogin && (
                                             <a href="#" id="employeeBtton" className="text-sm font-medium text-[#4094A5] hover:underline hover:text-black mt-3" onClick={handleEmployeeLoginClick}>Employee? Login here</a>
