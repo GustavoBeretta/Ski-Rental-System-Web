@@ -21,7 +21,6 @@ export default function RentalRequestInformation() {
         async function checkAccess() {
             const session = await getSession();
             if (!session || session.user.role !== 'employee') {
-                // Redirect user to /home if not authenticated or role is not employee
                 router.push('/home');
             }
         }
