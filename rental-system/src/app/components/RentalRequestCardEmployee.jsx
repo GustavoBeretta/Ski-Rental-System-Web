@@ -7,7 +7,6 @@ const RentalRequestCardEmployee = ({ name, time, date, sport, _id, boots, helmet
     const handleCardClick = () => {
         router.push(`/rental-requests-employee/information/${_id}`);
     }
-    console.log(boots)
     return (
         <button className="rounded-lg bg-gray-200 m-2 w-full" onClick={handleCardClick}>
             <div className="bg-sky-200 rounded-lg p-2">

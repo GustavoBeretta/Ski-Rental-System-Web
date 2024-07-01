@@ -91,7 +91,7 @@ export default function HomeEmployee() {
 
     return (
         <div>
-            <NavBar showLogOutIcon={true} showUsersIcon={true} />
+            <NavBar showLogOutIcon={true} showUsersIcon={true} showEmployeeHomeIcon={false} showGuestHomeIcon={false} />
             <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase text-center">Rental Requests</h1>
