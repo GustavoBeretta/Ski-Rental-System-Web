@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import bcrypt from 'bcryptjs';
 import NavBar from "../components/NavBar";
 import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react"
+import { signOut } from "next-auth/react";
 import Swal from 'sweetalert2';
 
 export default function EditAccount() {
