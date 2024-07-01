@@ -28,9 +28,9 @@ export default function Login() {
             }
 
             if (isEmployeeLogin) {
-                router.replace("/homeEmployee")
+                router.push("/homeEmployee")
             } else {
-                router.replace("/home")
+                router.push("/home")
             }
 
         } catch (error) {
