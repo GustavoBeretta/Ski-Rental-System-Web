@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const getRequests = async () => {
     try {
@@ -91,7 +91,7 @@ export default function HomeEmployee() {
 
     return (
         <div>
-            <NavBar showLogOutIcon={true} showUsersIcon={true} showEmployeeHomeIcon={false} showGuestHomeIcon={false} />
+            <NavBar showLogOutIcon={true} showUsersIcon={true} />
             <main className="mt-10 flex flex-col items-center justify-between p-4">
                 <div className="mb-10">
                     <h1 className="lg:text-4xl text-2xl text-[#8F8E8E] uppercase text-center">Rental Requests</h1>
