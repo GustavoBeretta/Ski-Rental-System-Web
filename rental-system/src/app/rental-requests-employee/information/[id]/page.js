@@ -105,8 +105,9 @@ export default function RentalRequestInformation({params}) {
                     console.log("Error changing the rental request status: ", error);
                 }
                 Swal.fire('Status succesfully updated!', '', 'success')
-            } else {
-                router.push(`/homeEmployee/information/${rentalRequestData._id}`)};           
+                router.push('/homeEmployee');  
+            }
+                     
           }); 
     }
 
@@ -114,21 +115,18 @@ export default function RentalRequestInformation({params}) {
         event.preventDefault();
         changeStatus("canceled");
         setButtonText('canceled');
-        router.push('/homeEmployee');
     }
 
     const handleInProgress = async (event) => {
         event.preventDefault();
         changeStatus("in-progress");
         setButtonText('in-progress');
-        router.push('/homeEmployee');
     }
 
     const handleReturn = async (event) => {
         event.preventDefault();
         changeStatus("returned");
         setButtonText('returned');
-        router.push('/homeEmployee');
     }
 
     const formatDate = (timestamp) => {
