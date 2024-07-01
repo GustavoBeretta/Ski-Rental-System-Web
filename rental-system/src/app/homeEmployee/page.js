@@ -6,51 +6,53 @@ import NavBar from "../components/NavBar";
 import RentalRequestCardEmployee from '../components/RentalRequestCardEmployee';
 import { useRouter } from 'next/router';
 
-const getRequests = async () => {
-    try {
-        const res = await fetch('http://localhost:3000/api/rental-requests', {
-            cache: "no-store"
-        });
-        if (!res.ok) {
-            throw new Error("Failed to fetch the rental requests");
-        }
-        return res.json();
-    } catch (error) {
-        console.error("Error loading rental requests: ", error);
-        throw error;
-    }
-};
 
-const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-const formatTime = (timestamp) => {
-    const date = new Date(timestamp);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
-}
-
-const abbreviateName = (fullName) => {
-    if (!fullName) return '';
-
-    const nameParts = fullName.split(' ');
-    if (nameParts.length === 1) return fullName;
-
-    const firstName = nameParts[0];
-    const lastName = nameParts[nameParts.length - 1];
-    const middleNames = nameParts.slice(1, -1).map(name => name.charAt(0) + '.').join(' ');
-
-    return `${firstName} ${middleNames} ${lastName}`;
-}
 
 const HomeEmployee = () => {
+    const getRequests = async () => {
+        try {
+            const res = await fetch('http://localhost:3000/api/rental-requests', {
+                cache: "no-store"
+            });
+            if (!res.ok) {
+                throw new Error("Failed to fetch the rental requests");
+            }
+            return res.json();
+        } catch (error) {
+            console.error("Error loading rental requests: ", error);
+            throw error;
+        }
+    };
+    
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    
+    const formatTime = (timestamp) => {
+        const date = new Date(timestamp);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    }
+    
+    const abbreviateName = (fullName) => {
+        if (!fullName) return '';
+    
+        const nameParts = fullName.split(' ');
+        if (nameParts.length === 1) return fullName;
+    
+        const firstName = nameParts[0];
+        const lastName = nameParts[nameParts.length - 1];
+        const middleNames = nameParts.slice(1, -1).map(name => name.charAt(0) + '.').join(' ');
+    
+        return `${firstName} ${middleNames} ${lastName}`;
+    }
+
     const { data: session, status } = useSession();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
